@@ -1,6 +1,7 @@
 package com.example.tobia.database;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.NetworkOnMainThreadException;
@@ -13,6 +14,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -47,8 +53,6 @@ public class MainActivity extends Activity {
         catch (InterruptedException e) { Log.d(e.toString(), "Så vi kan ikke sove");}
         Testfunc();
 
-        TextView text = findViewById(R.id.textView);
-        text.setText("PodRace");
         pieChart = (PieChart) findViewById(R.id.pieChart);
 
         pieChart.setCenterText("Our chart!");
@@ -58,6 +62,21 @@ public class MainActivity extends Activity {
         pieChart.setDragDecelerationFrictionCoef(0.95f);
 
         pieChart.setDrawHoleEnabled(true);
+        pieChart.setHoleColor(Color.CYAN);
+        pieChart.setTransparentCircleRadius(61f);
+
+        PieDataSet dataSet = new PieDataSet(listen, "Vand fordeling");
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+
+        PieData data = new PieData((dataSet));
+        data.setValueTextColor(Color.YELLOW);
+        data.setValueTextSize(10f);
+
+        pieChart.setData(data);
+
+
     }
 
     Thread thread = new Thread(new Runnable() {
@@ -71,6 +90,8 @@ public class MainActivity extends Activity {
         }
     });
 
+    private static List<PieEntry> listen = new ArrayList<>();
+
     //MÅSKE SKAL VI LAVE ET HASHMAP I STEDET????????
     public void Testfunc() {
 
@@ -79,7 +100,6 @@ public class MainActivity extends Activity {
         String test = doInBackground.getIndex(0);
 
         Log.d(test, "VI FÅR NOGET");
-        List<Integer> listen = new ArrayList<>();
         listen = doInBackground.getList();
 
         for (int i = 0; i < listen.size(); i++) {

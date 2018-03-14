@@ -3,6 +3,8 @@ package com.example.tobia.database;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.github.mikephil.charting.data.PieEntry;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -31,9 +33,9 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
     JSONArray dataJsonArr = null;
 
     public JSONObject jObj = null;
-    private static List<Integer> list = new ArrayList<Integer>();
+    private static List<PieEntry> list = new ArrayList<PieEntry>();
 
-    public List<Integer> getList() {
+    public List<PieEntry> getList() {
         return list;
     }
 
@@ -111,7 +113,7 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
                         + ", waterUsage: " + waterUsage
                         + ", data: " + data);
                 int dummy = Integer.parseInt(waterUsage);
-                list.add(dummy);
+                list.add(new PieEntry(dummy));
             }
         }
 
