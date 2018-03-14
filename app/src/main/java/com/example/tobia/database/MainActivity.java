@@ -51,21 +51,28 @@ public class MainActivity extends Activity {
 
         try {Thread.sleep(5000);}
         catch (InterruptedException e) { Log.d(e.toString(), "Så vi kan ikke sove");}
+        thread.interrupt();
         Testfunc();
+        calculater();
 
         pieChart = (PieChart) findViewById(R.id.pieChart);
 
         pieChart.setCenterText("Our chart!");
-        pieChart.setUsePercentValues(true);
+        pieChart.setUsePercentValues(false);
         pieChart.setExtraOffsets(5,10,5,5);
 
-        pieChart.setDragDecelerationFrictionCoef(0.95f);
+        pieChart.setDragDecelerationFrictionCoef(10f);
 
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColor(Color.CYAN);
         pieChart.setTransparentCircleRadius(61f);
 
-        PieDataSet dataSet = new PieDataSet(listen, "Vand fordeling");
+        ArrayList<PieEntry> Vand = new ArrayList<>();
+
+        Vand.add(new PieEntry(waterUsage, "Your use"));
+        Vand.add((new PieEntry(500f, "The world")));
+
+        PieDataSet dataSet = new PieDataSet(Vand, "Vand fordeling");
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
@@ -79,6 +86,14 @@ public class MainActivity extends Activity {
 
     }
 
+    int waterUsage = 0;
+
+    public void calculater() {
+        for (int i = 0; i < listen.size(); i++) {
+            waterUsage = waterUsage + listen.get(i);
+        }
+    }
+
     Thread thread = new Thread(new Runnable() {
         @Override
         public void run() {
@@ -90,16 +105,15 @@ public class MainActivity extends Activity {
         }
     });
 
-    private static List<PieEntry> listen = new ArrayList<>();
+    private static List<Integer> listen = new ArrayList<>();
+    private static List<PieEntry> pieListen = new ArrayList<>();
 
     //MÅSKE SKAL VI LAVE ET HASHMAP I STEDET????????
     public void Testfunc() {
 
         doInBackground = new AsyncTaskParseJson();
 
-        String test = doInBackground.getIndex(0);
-
-        Log.d(test, "VI FÅR NOGET");
+        pieListen = doInBackground.getPieList();
         listen = doInBackground.getList();
 
         for (int i = 0; i < listen.size(); i++) {

@@ -33,10 +33,14 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
     JSONArray dataJsonArr = null;
 
     public JSONObject jObj = null;
-    private static List<PieEntry> list = new ArrayList<PieEntry>();
+    private static List<PieEntry> pieList = new ArrayList<PieEntry>();
+    private static List<Integer> list = new ArrayList<Integer>();
 
-    public List<PieEntry> getList() {
+    public List<Integer> getList() {
         return list;
+    }
+    public List<PieEntry> getPieList() {
+        return pieList;
     }
 
     public String getIndex (int i) {
@@ -113,7 +117,8 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
                         + ", waterUsage: " + waterUsage
                         + ", data: " + data);
                 int dummy = Integer.parseInt(waterUsage);
-                list.add(new PieEntry(dummy));
+                pieList.add(new PieEntry(dummy));
+                list.add(dummy);
             }
         }
 
