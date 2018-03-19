@@ -1,7 +1,9 @@
 package com.example.tobia.database;
 
+import android.graphics.Region;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.util.Pair;
 
 import com.github.mikephil.charting.data.PieEntry;
 
@@ -19,7 +21,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.DoubleBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
@@ -33,20 +37,30 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
     JSONArray dataJsonArr = null;
 
     public JSONObject jObj = null;
-    private static List<PieEntry> pieList = new ArrayList<PieEntry>();
-    private static List<Integer> list = new ArrayList<Integer>();
 
-    public List<Integer> getList() {
-        return list;
-    }
-    public List<PieEntry> getPieList() {
-        return pieList;
-    }
+    private static List<Integer> idList = new ArrayList<Integer>();
+    private static List<Double> tempList = new ArrayList<Double>();
+    private static List<Double> waterUsageList = new ArrayList<Double>();
+    private static List<Double> flowList = new ArrayList<Double>();
+    private static List<String> dateList = new ArrayList<String>();
 
-    public String getIndex (int i) {
-        return list.get(i).toString();
-    }
+    public List<Integer> getIdList() { return idList; }
+    public List<Double> getTempList() { return tempList; }
+    public List<Double> getWaterUsageList() { return waterUsageList; }
+    public List<Double> getFlowList() { return flowList; }
+    public List<String> getDateList() { return dateList; }
 
+    private static List<PieEntry> idPieList = new ArrayList<PieEntry>();
+    private static List<PieEntry> tempListPieList = new ArrayList<PieEntry>();
+    private static List<PieEntry> waterUsagePieList = new ArrayList<PieEntry>();
+    private static List<PieEntry> flowPieList = new ArrayList<PieEntry>();
+    private static List<PieEntry> datePieList = new ArrayList<PieEntry>();
+
+    public List<PieEntry> getIdPieList() { return idPieList; }
+    public List<PieEntry> getTempListPieList() { return tempListPieList; }
+    public List<PieEntry> getWaterUsagePieList() { return waterUsagePieList; }
+    public List<PieEntry> getFlowPieList() { return flowPieList; }
+    public List<PieEntry> getDatePieList() { return datePieList; }
 
     @Override
     protected void onPreExecute() {}
@@ -104,21 +118,28 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
                 JSONObject c = dataJsonArr.getJSONObject(i);
 
                 // Storing each json item in variable
-                String firstname = c.getString("id");
-                String lastname = c.getString("temp");
-                String username = c.getString("flow");
+                String id = c.getString("id");
+                String temp = c.getString("temp");
+                String flow = c.getString("flow");
                 String waterUsage = c.getString("waterUsage");
-                String data = c.getString("date");
+                String date = c.getString("date");
 
                 // show the values in our logcat
-                Log.e(TAG, "id: " + firstname
-                        + ", temp: " + lastname
-                        + ", flow: " + username
+                Log.e(TAG, "id: " + id
+                        + ", temp: " + temp
+                        + ", flow: " + flow
                         + ", waterUsage: " + waterUsage
-                        + ", data: " + data);
-                int dummy = Integer.parseInt(waterUsage);
-                pieList.add(new PieEntry(dummy));
-                list.add(dummy);
+                        + ", data: " + date);
+                idList.add(Integer.parseInt(id));
+                tempList.add(Double.parseDouble(temp));
+                flowList.add(Double.parseDouble(flow));
+                waterUsageList.add(Double.parseDouble(waterUsage));
+                dateList.add(date.toString());
+
+                idPieList.add(new PieEntry(Integer.parseInt(id)));
+                tempListPieList.add(new PieEntry(Float.parseFloat(temp)));
+                flowPieList.add(new PieEntry(Float.parseFloat(flow)));
+                waterUsagePieList.add(new PieEntry(Float.parseFloat(waterUsage)));
             }
         }
 

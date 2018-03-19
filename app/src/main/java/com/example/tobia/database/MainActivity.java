@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
 
         ArrayList<PieEntry> Vand = new ArrayList<>();
 
-        Vand.add(new PieEntry(waterUsage, "Your use"));
+        Vand.add(new PieEntry((float)waterUsage, "Your use"));
         Vand.add((new PieEntry(500f, "The world")));
 
         PieDataSet dataSet = new PieDataSet(Vand, "Vand fordeling");
@@ -86,7 +86,7 @@ public class MainActivity extends Activity {
 
     }
 
-    int waterUsage = 0;
+    double waterUsage = 0;
 
     public void calculater() {
         for (int i = 0; i < listen.size(); i++) {
@@ -105,7 +105,7 @@ public class MainActivity extends Activity {
         }
     });
 
-    private static List<Integer> listen = new ArrayList<>();
+    private static List<Double> listen = new ArrayList<>();
     private static List<PieEntry> pieListen = new ArrayList<>();
 
     //MÅSKE SKAL VI LAVE ET HASHMAP I STEDET????????
@@ -113,8 +113,8 @@ public class MainActivity extends Activity {
 
         doInBackground = new AsyncTaskParseJson();
 
-        pieListen = doInBackground.getPieList();
-        listen = doInBackground.getList();
+        pieListen = doInBackground.getWaterUsagePieList();
+        listen = doInBackground.getWaterUsageList();
 
         for (int i = 0; i < listen.size(); i++) {
             Log.d(listen.get(i).toString(), "list item");
