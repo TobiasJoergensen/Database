@@ -151,7 +151,21 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
         return jsonResult;
     }
 
+    protected boolean run;
+
+    public void setMyField(Boolean value)
+    {
+        this.run = value;
+    }
+
+    public boolean running() {
+        Log.v(TAG, "What's our state: " + Boolean.toString(run));
+        return run;
+    }
+
     @Override
     protected void onPostExecute(String strFromDoInBg) {
+        setMyField(true);
+        Log.v(TAG, "DONE RUNNING " + Boolean.toString(run));
     }
 }

@@ -1,6 +1,7 @@
 package com.example.tobia.database;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,7 +39,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity {
+public class    MainActivity extends Activity {
 
     private AsyncTaskParseJson doInBackground;
     PieChart pieChart;
@@ -46,14 +47,15 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         setContentView(R.layout.activity_main);
         thread.start();
+    }
 
-        try {Thread.sleep(5000);}
-        catch (InterruptedException e) { Log.d(e.toString(), "Så vi kan ikke sove");}
-        thread.interrupt();
-        Testfunc();
-        calculater();
+    public void pieDrawer () {
+
+        //HER ER LINK TIL DOKUMENTATION AF PIECHART: https://github.com/PhilJay/MPAndroidChart
 
         pieChart = (PieChart) findViewById(R.id.pieChart);
 
@@ -83,7 +85,6 @@ public class MainActivity extends Activity {
 
         pieChart.setData(data);
 
-
     }
 
     double waterUsage = 0;
@@ -99,9 +100,32 @@ public class MainActivity extends Activity {
         public void run() {
             try {
                 new AsyncTaskParseJson().execute();
+//                try {Thread.sleep(5000);}
+//                catch (InterruptedException e) { Log.d(e.toString(), "Så vi kan ikke sove");}
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            boolean dummy = false;
+            AsyncTaskParseJson doInBackground = new AsyncTaskParseJson();
+
+/*            while(!dummy) {
+                dummy = doInBackground.running();
+                try {Thread.sleep(500);}
+                catch (InterruptedException e) { Log.d(e.toString(), "Så vi kan ikke sove");}
+                Log.d("Er vi false eller true:", Boolean.toString(dummy));
+            }*/
+            try {Thread.sleep(2000);}
+            catch (InterruptedException e) { Log.d(e.toString(), "Så vi kan ikke sove");}
+            Testfunc();
+
+            try {Thread.sleep(2000);}
+            catch (InterruptedException e) { Log.d(e.toString(), "Så vi kan ikke sove");}
+            calculater();
+
+            try {Thread.sleep(2000);}
+            catch (InterruptedException e) { Log.d(e.toString(), "Så vi kan ikke sove");}
+            pieDrawer();
+
         }
     });
 
@@ -111,7 +135,7 @@ public class MainActivity extends Activity {
     //MÅSKE SKAL VI LAVE ET HASHMAP I STEDET????????
     public void Testfunc() {
 
-        doInBackground = new AsyncTaskParseJson();
+        AsyncTaskParseJson doInBackground = new AsyncTaskParseJson();
 
         pieListen = doInBackground.getWaterUsagePieList();
         listen = doInBackground.getWaterUsageList();
