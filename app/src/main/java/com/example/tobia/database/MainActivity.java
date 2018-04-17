@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -43,6 +44,8 @@ public class    MainActivity extends Activity {
 
     private AsyncTaskParseJson doInBackground;
     PieChart pieChart;
+    private static List<Double> listen = new ArrayList<>();
+    double waterUsage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +59,6 @@ public class    MainActivity extends Activity {
     public void pieDrawer () {
 
         //HER ER LINK TIL DOKUMENTATION AF PIECHART: https://github.com/PhilJay/MPAndroidChart
-
         pieChart = (PieChart) findViewById(R.id.pieChart);
 
         pieChart.setCenterText("Our chart!");
@@ -84,10 +86,9 @@ public class    MainActivity extends Activity {
         data.setValueTextSize(10f);
 
         pieChart.setData(data);
+        pieChart.invalidate();
 
     }
-
-    double waterUsage = 0;
 
     public void calculater() {
         for (int i = 0; i < listen.size(); i++) {
@@ -98,51 +99,25 @@ public class    MainActivity extends Activity {
     Thread thread = new Thread(new Runnable() {
         @Override
         public void run() {
+
+            AsyncTaskParseJson doInBackground = new AsyncTaskParseJson();
             try {
-                new AsyncTaskParseJson().execute();
+                doInBackground.execute();
 //                try {Thread.sleep(5000);}
 //                catch (InterruptedException e) { Log.d(e.toString(), "Så vi kan ikke sove");}
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            boolean dummy = false;
-            AsyncTaskParseJson doInBackground = new AsyncTaskParseJson();
 
-/*            while(!dummy) {
-                dummy = doInBackground.running();
-                try {Thread.sleep(500);}
+            while (doInBackground.getStatus() != AsyncTaskParseJson.Status.FINISHED) {
+                Log.d("xD", "Venter på vi er færdige");
+                Log.d("Status på async: ", doInBackground.getStatus().toString());
+                try {Thread.sleep(50);}
                 catch (InterruptedException e) { Log.d(e.toString(), "Så vi kan ikke sove");}
-                Log.d("Er vi false eller true:", Boolean.toString(dummy));
-            }*/
-            try {Thread.sleep(2000);}
-            catch (InterruptedException e) { Log.d(e.toString(), "Så vi kan ikke sove");}
-            Testfunc();
-
-            try {Thread.sleep(2000);}
-            catch (InterruptedException e) { Log.d(e.toString(), "Så vi kan ikke sove");}
+            }
+            Log.d("xD", "Vi er færdige");
             calculater();
-
-            try {Thread.sleep(2000);}
-            catch (InterruptedException e) { Log.d(e.toString(), "Så vi kan ikke sove");}
             pieDrawer();
-
         }
     });
-
-    private static List<Double> listen = new ArrayList<>();
-    private static List<PieEntry> pieListen = new ArrayList<>();
-
-    //MÅSKE SKAL VI LAVE ET HASHMAP I STEDET????????
-    public void Testfunc() {
-
-        AsyncTaskParseJson doInBackground = new AsyncTaskParseJson();
-
-        pieListen = doInBackground.getWaterUsagePieList();
-        listen = doInBackground.getWaterUsageList();
-
-        for (int i = 0; i < listen.size(); i++) {
-            Log.d(listen.get(i).toString(), "list item");
-        }
-
-    }
 }
