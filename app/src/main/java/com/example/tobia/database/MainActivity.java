@@ -2,19 +2,17 @@ package com.example.tobia.database;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.TabLayout;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -22,20 +20,21 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.security.AccessController.getContext;
-
 public class MainActivity extends Activity {
 
-    private AsyncTaskParseJson doInBackground;
     PieChart pieChart;
     PieChart greyPieChart;
     private static List<Double> listen = new ArrayList<>();
     double waterUsage = 0;
+    private static List<Integer> idList = new ArrayList<Integer>();
+    private static List<Double> tempList = new ArrayList<Double>();
+    private static List<Double> waterUsageList = new ArrayList<Double>();
+    private static List<Double> flowList = new ArrayList<Double>();
+    private static List<String> dateList = new ArrayList<String>();
+    private static List<Double> timeUsedList = new ArrayList<Double>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,24 +42,76 @@ public class MainActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         setContentView(R.layout.activity_main);
-        Pageviewver ();
+        mainActivitySetup();
         thread.start();
     }
 
     //Den her har Jimmi og Kathrine lavet. Jeg er ikke sikker på, om noget skal slettes heri.
-    protected  void Pageviewver () {
+    protected  void mainActivitySetup () {
 
-        TextView textviev = (TextView) findViewById(R.id.textView);
+        //Skriftyper vi kan bruge i appen.
+        Typeface opensans_bold = Typeface.createFromAsset(getAssets(), "opensans_bold.ttf");
+        Typeface opensans_extrabold = Typeface.createFromAsset(getAssets(), "opensans_extrabold.ttf");
+        Typeface opensans_regular = Typeface.createFromAsset(getAssets(), "opensans_regular.ttf");
+        Typeface opensans_semibold = Typeface.createFromAsset(getAssets(), "opensans_semibold.ttf");
 
-        Resources res = getResources();
+        //Datovisning i toppen af skærmen
+        TextView savedPercent = (TextView) findViewById(R.id.savedPercent);
+        savedPercent.setTextColor(getResources().getColor(R.color.grey_text));
+        savedPercent.setTypeface(opensans_regular);
 
-        int m_color = getResources().getColor(R.color.primary_white);
+        //De tre tekstbokse inde i cirklen.
+        TextView calenderView = (TextView) findViewById(R.id.calenderView);
+        calenderView.setTextColor(getResources().getColor(R.color.grey_text));
+        calenderView.setTypeface(opensans_regular);
 
-        final int[] MY_COLORS = {Color.rgb(228,228,228)};
+        TextView literSaved = (TextView) findViewById(R.id.literSaved);
+        literSaved.setTextColor(getResources().getColor(R.color.grey_text));
+        literSaved.setTypeface(opensans_extrabold);
 
-        ArrayList<Integer> colors = new ArrayList<Integer>();
+        TextView sparetString = (TextView) findViewById(R.id.sparetSting);
+        sparetString.setTextColor(getResources().getColor(R.color.grey_text));
+        sparetString.setTypeface(opensans_regular);
 
-        for(int c: MY_COLORS) colors.add(c);
+        //De tre bokse til tal af flow, tid og penge
+        TextView flowUsed = (TextView) findViewById(R.id.flowUsed);
+        flowUsed.setTextColor(getResources().getColor(R.color.text_color));
+        flowUsed.setTypeface(opensans_semibold);
+
+        TextView timeUsed = (TextView) findViewById(R.id.timeUsed);
+        timeUsed.setTextColor(getResources().getColor(R.color.text_color));
+        timeUsed.setTypeface(opensans_semibold);
+
+        TextView moneyUsed = (TextView) findViewById(R.id.moneyUsed);
+        moneyUsed.setTextColor(getResources().getColor(R.color.text_color));
+        moneyUsed.setTypeface(opensans_semibold);
+
+        //De tre navne bokse til flow, tid og penge
+        TextView flowView = (TextView) findViewById(R.id.flowView);
+        flowView.setTextColor(getResources().getColor(R.color.text_color));
+        flowView.setTypeface(opensans_regular);
+
+        TextView timeView = (TextView) findViewById(R.id.timeView);
+        timeView.setTextColor(getResources().getColor(R.color.text_color));
+        timeView.setTypeface(opensans_regular);
+
+        TextView moneyView = (TextView) findViewById(R.id.moneyView);
+        moneyView.setTextColor(getResources().getColor(R.color.text_color));
+        moneyView.setTypeface(opensans_regular);
+
+        //De tre bokse til liter, sekunder og pris
+        TextView literMinute = (TextView) findViewById(R.id.literMinute);
+        literMinute.setTextColor(getResources().getColor(R.color.grey_text));
+        literMinute.setTypeface(opensans_regular);
+
+        TextView timeTotal = (TextView) findViewById(R.id.timeTotal);
+        timeTotal.setTextColor(getResources().getColor(R.color.grey_text));
+        timeTotal.setTypeface(opensans_regular);
+
+        TextView moneySpent = (TextView) findViewById(R.id.moneySpent);
+        moneySpent.setTextColor(getResources().getColor(R.color.grey_text));
+        moneySpent.setTypeface(opensans_regular);
+
 
         // Create an instance of the tab layout from the view.
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -68,9 +119,25 @@ public class MainActivity extends Activity {
         // Set the text for each tab.
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_label1));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_label2));
-        tabLayout.setTabTextColors(R.color.text_color, R.color.text_color);
-        tabLayout.setBackgroundColor(getColor(R.color.primary_white));
-        // Set the tabs to fill the entire layout.
+
+        //Tablayoutets farve og skrifttype
+        tabLayout.setTabTextColors(R.color.grey_text, R.color.primary_white);
+        tabLayout.setBackgroundColor(getResources().getColor(R.color.primary_white));
+
+        ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
+        int tabsCount = vg.getChildCount();
+        for (int j = 0; j < tabsCount; j++) {
+            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
+            int tabChildsCount = vgTab.getChildCount();
+            for (int i = 0; i < tabChildsCount; i++) {
+                View tabViewChild = vgTab.getChildAt(i);
+                if (tabViewChild instanceof TextView) {
+                    ((TextView) tabViewChild).setTypeface(opensans_extrabold);
+                    ((TextView) tabViewChild).setTextColor(getResources().getColor(R.color.text_color));
+                }
+            }
+        }
+
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
@@ -196,10 +263,11 @@ public class MainActivity extends Activity {
         }
     }
 
+    public AsyncTaskParseJson doInBackground = new AsyncTaskParseJson();
     Thread thread = new Thread(new Runnable() {
         @Override
         public void run() {
-            AsyncTaskParseJson doInBackground = new AsyncTaskParseJson();
+//            AsyncTaskParseJson doInBackground = new AsyncTaskParseJson();
             try {
                 doInBackground.execute();
 //                try {Thread.sleep(5000);}
@@ -216,13 +284,45 @@ public class MainActivity extends Activity {
             }
             Looper.prepare();
             Log.d("xD", "Vi er færdige");
+            listTransfer();
             calculater();
             runOnUiThread(new Runnable() {
                 public void run() {            pieDrawerGrey();
                     pieDrawer();
+                    TextView datoTop = (TextView) findViewById(R.id.calenderView);
+                    datoTop.setText(dateList.get(0));
+
+                    TextView flow = (TextView) findViewById(R.id.flowUsed);
+                    flow.setText(flowList.get(0).toString());
+
+                    TextView tid = (TextView) findViewById(R.id.timeUsed);
+                    tid.setText(timeUsedList.get(0).toString());
+
+                    TextView Pris = (TextView) findViewById(R.id.moneyUsed);
+                    Pris.setText(priceCount());
                 }
             });
             Looper.loop();
         }
     });
+
+    public String priceCount () {
+
+        double count = ((waterUsageList.get(0) / 1000) * 44 * 4);
+        String stringer = String.valueOf(count);
+        return stringer;
+    }
+
+    private void listTransfer() {
+        idList = doInBackground.getIdList();
+        tempList = doInBackground.getTempList();
+        waterUsageList = doInBackground.getWaterUsageList();
+        flowList = doInBackground.getFlowList();
+        dateList = doInBackground.getDateList();
+        timeUsedList = doInBackground.getTimeUsed();
+    }
+    public void buttonClick(View view) {
+        TextView text = (TextView) findViewById(R.id.calenderView);
+        text.setText("trykket");
+    }
 }

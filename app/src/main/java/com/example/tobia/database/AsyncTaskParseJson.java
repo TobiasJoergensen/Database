@@ -120,7 +120,7 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
 
                 JSONObject c = dataJsonArr.getJSONObject(i);
 
-                String id = c.getString("id");
+                String id = c.getString("ID");
                 String flowAverage = c.getString("waterAverage");
                 String waterUsage = c.getString("waterUsage");
                 String timeUsed = c.getString("timeUsed");
