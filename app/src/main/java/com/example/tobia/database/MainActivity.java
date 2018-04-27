@@ -14,21 +14,30 @@ import android.view.View;
 import android.support.design.widget.TabLayout;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import static java.lang.Math.toIntExact;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends Activity {
 
     PieChart pieChart;
     PieChart greyPieChart;
-    private static List<Double> listen = new ArrayList<>();
     double waterUsage = 0;
+    int curArrayPlacement = 0;
+
+    private static List<Double> listen = new ArrayList<>();
     private static List<Integer> idList = new ArrayList<Integer>();
     private static List<Double> tempList = new ArrayList<Double>();
     private static List<Double> waterUsageList = new ArrayList<Double>();
@@ -62,8 +71,8 @@ public class MainActivity extends Activity {
 
         //De tre tekstbokse inde i cirklen.
         TextView calenderView = (TextView) findViewById(R.id.calenderView);
-        calenderView.setTextColor(getResources().getColor(R.color.grey_text));
-        calenderView.setTypeface(opensans_regular);
+        calenderView.setTextColor(getResources().getColor(R.color.text_color));
+        calenderView.setTypeface(opensans_extrabold);
 
         TextView literSaved = (TextView) findViewById(R.id.literSaved);
         literSaved.setTextColor(getResources().getColor(R.color.grey_text));
@@ -224,37 +233,115 @@ public class MainActivity extends Activity {
         pieChart.setHoleRadius(90f);
         pieChart.setHoleColor(Color.WHITE);
         pieChart.setTouchEnabled(false);
-        pieChart.animateY(1000);
         pieChart.setDrawEntryLabels(false);
         pieChart.setEntryLabelTextSize(0);
 //        pieChart.setDrawSlicesUnderHole(false);
+        pieChart.animateY(1000);
         pieChart.getLegend().setEnabled(false);
         pieChart.getDescription().setEnabled(false);
 
         ArrayList<PieEntry> Vand = new ArrayList<>();
-        waterUsage = 400;
-        float waterGoal = 500;
-        float sparet = waterGoal - (float)waterUsage;
-        Vand.add(new PieEntry((float)waterUsage,  ""));
-        Vand.add((new PieEntry(sparet, "")));
+        Vand.clear();
+        waterUsage = waterUsageList.get(curArrayPlacement);
+        float waterGoal = 10000;
 
-        PieDataSet dataSet = new PieDataSet(Vand, " ");
-        dataSet.setSliceSpace(0f);
-        dataSet.setSelectionShift(0f);
-        final int[] MY_COLORS = {Color.rgb( 74,144,226), Color.argb(0,228,228,228)};
+        if (waterUsage <= waterGoal) {
+            float sparet = waterGoal - (float)waterUsage;
+            Vand.add(new PieEntry((float)waterUsage,  ""));
+            Vand.add((new PieEntry(sparet, "")));
 
-        ArrayList<Integer> colors = new ArrayList<Integer>();
+            TextView liter = (TextView) findViewById(R.id.literSaved);
+            TextView percent = (TextView) findViewById(R.id.savedPercent);
+            TextView saved = (TextView) findViewById(R.id.sparetSting);
 
-        for(int c: MY_COLORS) colors.add(c);
+            saved.setText("Sparet");
 
-        dataSet.setColors(colors);
+            if (sparet % 1 == 0){
+                int dummy = Math.round(sparet);
+                liter.setText(Integer.toString(dummy/ 1000) + "L");
+            }
+            else {
+                liter.setText(Float.toString(sparet/ 1000) + "L");
+            }
 
-        PieData data = new PieData((dataSet));
-        data.setValueTextColor(Color.YELLOW);
-        data.setValueTextSize(10f);
-        data.setDrawValues(false);
-        pieChart.setData(data);
-        pieChart.invalidate();
+            if (waterUsage % 1 == 0 && waterGoal % 1 == 0){
+                int dummy = (int) waterUsage;
+                int dummy2 = Math.round(waterGoal);
+                percent.setText((dummy / 1000) + " / " + (dummy2 / 1000));
+            }
+            else {
+                percent.setText((waterUsage / 1000) + " / " + (waterGoal / 1000));
+            }
+
+
+            PieDataSet dataSet = new PieDataSet(Vand, " ");
+            dataSet.setSliceSpace(0f);
+            dataSet.setSelectionShift(0f);
+            final int[] MY_COLORS = {Color.rgb( 74,144,226), Color.argb(0,228,228,228)};
+
+            ArrayList<Integer> colors = new ArrayList<Integer>();
+
+            for(int c: MY_COLORS) colors.add(c);
+
+            dataSet.setColors(colors);
+
+            PieData data = new PieData((dataSet));
+            data.setValueTextColor(Color.YELLOW);
+            data.setValueTextSize(10f);
+            data.setDrawValues(false);
+            pieChart.setData(data);
+            pieChart.invalidate();
+        }
+
+        else {
+            float forMeget = waterGoal - (float)waterUsage;
+            forMeget = Math.abs(forMeget);
+            forMeget = (float)waterUsage - forMeget;
+            Vand.add((new PieEntry(forMeget, "")));
+            Vand.add(new PieEntry((float)waterUsage,  ""));
+
+            TextView liter = (TextView) findViewById(R.id.literSaved);
+            TextView percent = (TextView) findViewById(R.id.savedPercent);
+            TextView saved = (TextView) findViewById(R.id.sparetSting);
+
+            saved.setText("Overbrugt");
+
+            if (forMeget % 1 == 0){
+                int dummy = Math.round(forMeget);
+                liter.setText(Integer.toString(dummy/ 1000) + "L");
+            }
+            else {
+                liter.setText(Float.toString(forMeget/ 1000) + "L");
+            }
+
+            if (waterUsage % 1 == 0 && waterGoal % 1 == 0){
+                int dummy = (int) waterUsage;
+                int dummy2 = Math.round(waterGoal);
+                percent.setText((dummy / 1000) + " / " + (dummy2 / 1000));
+            }
+            else {
+                percent.setText((waterUsage / 1000) + " / " + (waterGoal / 1000));
+            }
+
+
+            PieDataSet dataSet = new PieDataSet(Vand, " ");
+            dataSet.setSliceSpace(0f);
+            dataSet.setSelectionShift(0f);
+            final int[] MY_COLORS = {Color.rgb( 255,0,0), Color.argb(0,228,228,228)};
+
+            ArrayList<Integer> colors = new ArrayList<Integer>();
+
+            for(int c: MY_COLORS) colors.add(c);
+
+            dataSet.setColors(colors);
+
+            PieData data = new PieData((dataSet));
+            data.setValueTextColor(Color.YELLOW);
+            data.setValueTextSize(10f);
+            data.setDrawValues(false);
+            pieChart.setData(data);
+            pieChart.invalidate();
+        }
     }
 
     public void calculater() {
@@ -285,21 +372,53 @@ public class MainActivity extends Activity {
             Looper.prepare();
             Log.d("xD", "Vi er færdige");
             listTransfer();
-            calculater();
+            //calculater();
             runOnUiThread(new Runnable() {
-                public void run() {            pieDrawerGrey();
+                public void run() {
+                    pieDrawerGrey();
                     pieDrawer();
-                    TextView datoTop = (TextView) findViewById(R.id.calenderView);
-                    datoTop.setText(dateList.get(0));
-
+                    TextView date = (TextView) findViewById(R.id.calenderView);
                     TextView flow = (TextView) findViewById(R.id.flowUsed);
-                    flow.setText(flowList.get(0).toString());
-
-                    TextView tid = (TextView) findViewById(R.id.timeUsed);
-                    tid.setText(timeUsedList.get(0).toString());
-
+                    TextView time = (TextView) findViewById(R.id.timeUsed);
+                    TextView money = (TextView) findViewById(R.id.moneyUsed);
                     TextView Pris = (TextView) findViewById(R.id.moneyUsed);
+
                     Pris.setText(priceCount());
+
+                    if ((flowList.get(curArrayPlacement) / 1000) % 1 == 0){
+                        double caster = flowList.get(curArrayPlacement);
+                        int dummy = (int) caster / 1000;
+                        flow.setText(String.valueOf(dummy) + "L");
+                    }
+                    else {
+                        double dummy = flowList.get(curArrayPlacement) / 1000;
+                        flow.setText(Double.toString(dummy));
+                    }
+
+                    if (timeUsedList.get(curArrayPlacement) % 1 == 0) {
+                        double caster = timeUsedList.get(curArrayPlacement);
+                        int dummy = (int) caster;
+                        time.setText(String.valueOf(dummy));
+                    }
+                    else {
+                        time.setText(flowList.get(curArrayPlacement).toString());
+                    }
+
+                    TextView datoTop = (TextView) findViewById(R.id.calenderView);
+
+                    try {
+                        Date dateF = null;
+                        String string = dateList.get(curArrayPlacement);
+                        String format = "yyyy-MM-dd HH:mm:ss";
+                        dateF = new SimpleDateFormat(format).parse(string);
+                        String test = new SimpleDateFormat("EEEE, dd MMMM", new Locale("da", "DK")).format(dateF);
+
+
+                        String cap = test.substring(0, 1).toUpperCase() + test.substring(1);
+                        datoTop.setText(cap.toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             Looper.loop();
@@ -307,8 +426,18 @@ public class MainActivity extends Activity {
     });
 
     public String priceCount () {
+        double count;
 
-        double count = ((waterUsageList.get(0) / 1000) * 44 * 4);
+        if (waterUsageList.get(curArrayPlacement)% 1 == 0) {
+            double caster = flowList.get(curArrayPlacement);
+            int dummy = (int) caster;
+            String stringer = String.valueOf(dummy);
+            return stringer;
+        }
+        else {
+            count = ((waterUsageList.get(curArrayPlacement) / 1000) * 44 * 4);
+        }
+
         String stringer = String.valueOf(count);
         return stringer;
     }
@@ -321,8 +450,103 @@ public class MainActivity extends Activity {
         dateList = doInBackground.getDateList();
         timeUsedList = doInBackground.getTimeUsed();
     }
-    public void buttonClick(View view) {
-        TextView text = (TextView) findViewById(R.id.calenderView);
-        text.setText("trykket");
+    public void leftClick(View view) {
+        Log.d("størrelse: ", Integer.toString(idList.size()));
+        Log.d("størrelse: ", Integer.toString(curArrayPlacement));
+        if(curArrayPlacement > 0) {
+            curArrayPlacement = curArrayPlacement - 1;
+
+            TextView date = (TextView) findViewById(R.id.calenderView);
+            TextView flow = (TextView) findViewById(R.id.flowUsed);
+            TextView time = (TextView) findViewById(R.id.timeUsed);
+            TextView money = (TextView) findViewById(R.id.moneyUsed);
+
+            pieDrawer();
+            money.setText(priceCount());
+
+            try {
+                Date dateF = null;
+                String string = dateList.get(curArrayPlacement);
+                String format = "yyyy-MM-dd HH:mm:ss";
+                dateF = new SimpleDateFormat(format).parse(string);
+                String test = new SimpleDateFormat("EEEE, dd MMMM", new Locale("da", "DK")).format(dateF);
+
+                String cap = test.substring(0, 1).toUpperCase() + test.substring(1);
+                date.setText(cap.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if ((flowList.get(curArrayPlacement) / 1000) % 1 == 0){
+                double caster = flowList.get(curArrayPlacement);
+                int dummy = (int) caster / 1000;
+                flow.setText(String.valueOf(dummy) + "L");
+                Log.d("ER VI HER: ", "JA");
+            }
+            else {
+                double dummy = flowList.get(curArrayPlacement) / 1000;
+                flow.setText(Double.toString(dummy));
+            }
+
+            if (timeUsedList.get(curArrayPlacement) % 1 == 0) {
+                double caster = timeUsedList.get(curArrayPlacement);
+                int dummy = (int) caster;
+                time.setText(String.valueOf(dummy));
+            }
+            else {
+                time.setText(flowList.get(curArrayPlacement).toString());
+            }
+        }
+
     }
+
+    public void rightClick(View view) {
+        Log.d("størrelse: ", Integer.toString(idList.size()));
+        Log.d("størrelse: ", Integer.toString(waterUsageList.size()));
+
+        Log.d("størrelse: ", Integer.toString(curArrayPlacement));
+        if(curArrayPlacement < (waterUsageList.size() - 1)) {
+            curArrayPlacement = curArrayPlacement + 1;
+            TextView date = (TextView) findViewById(R.id.calenderView);
+            TextView flow = (TextView) findViewById(R.id.flowUsed);
+            TextView time = (TextView) findViewById(R.id.timeUsed);
+            TextView money = (TextView) findViewById(R.id.moneyUsed);
+
+            pieDrawer();
+            money.setText(priceCount());
+
+            try {
+                Date dateF = null;
+                String string = dateList.get(curArrayPlacement);
+                String format = "yyyy-MM-dd HH:mm:ss";
+                dateF = new SimpleDateFormat(format).parse(string);
+                String test = new SimpleDateFormat("EEEE, dd MMMM", new Locale("da", "DK")).format(dateF);
+
+                String cap = test.substring(0, 1).toUpperCase() + test.substring(1);
+                date.setText(cap.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if ((flowList.get(curArrayPlacement) / 1000) % 1 == 0){
+                double caster = flowList.get(curArrayPlacement);
+                int dummy = (int) caster / 1000;
+                flow.setText(String.valueOf(dummy) + "L");
+            }
+            else {
+                double dummy = flowList.get(curArrayPlacement) / 1000;
+                flow.setText(Double.toString(dummy));
+            }
+
+            if (timeUsedList.get(curArrayPlacement) % 1 == 0) {
+                double caster = timeUsedList.get(curArrayPlacement);
+                int dummy = (int) caster;
+                time.setText(String.valueOf(dummy));
+            }
+            else {
+                time.setText(flowList.get(curArrayPlacement).toString());
+            }
+        }
+    }
+
 }

@@ -87,6 +87,13 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... arg0) {
 
+        idList.clear();
+        tempList.clear();
+        waterUsageList.clear();
+        flowList.clear();
+        dateList.clear();
+        timeUsedList.clear();
+
         HttpClient httpClient = new DefaultHttpClient(new BasicHttpParams());
 
         HttpGet httpPost = new HttpGet(yourJsonStringUrl);
