@@ -1,20 +1,29 @@
 package com.example.tobia.database;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.TabLayout;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import static java.lang.Math.toIntExact;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -22,20 +31,25 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
-import java.text.ParseException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.zip.Inflater;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
+    private FragmentStatePagerAdapter mFragmentStatePagerAdapter;
     PieChart pieChart;
     PieChart greyPieChart;
     double waterUsage = 0;
     int curArrayPlacement = 0;
+    float waterGoal = 10000;
+    int mNumOfTabs;
+    DecimalFormat df = new DecimalFormat();
+
 
     private static List<Double> listen = new ArrayList<>();
     private static List<Integer> idList = new ArrayList<Integer>();
@@ -51,11 +65,9 @@ public class MainActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         setContentView(R.layout.activity_main);
-        mainActivitySetup();
         thread.start();
     }
 
-    //Den her har Jimmi og Kathrine lavet. Jeg er ikke sikker på, om noget skal slettes heri.
     protected  void mainActivitySetup () {
 
         //Skriftyper vi kan bruge i appen.
@@ -63,7 +75,7 @@ public class MainActivity extends Activity {
         Typeface opensans_extrabold = Typeface.createFromAsset(getAssets(), "opensans_extrabold.ttf");
         Typeface opensans_regular = Typeface.createFromAsset(getAssets(), "opensans_regular.ttf");
         Typeface opensans_semibold = Typeface.createFromAsset(getAssets(), "opensans_semibold.ttf");
-
+/*
         //Datovisning i toppen af skærmen
         TextView savedPercent = (TextView) findViewById(R.id.savedPercent);
         savedPercent.setTextColor(getResources().getColor(R.color.grey_text));
@@ -121,7 +133,7 @@ public class MainActivity extends Activity {
         moneySpent.setTextColor(getResources().getColor(R.color.grey_text));
         moneySpent.setTypeface(opensans_regular);
 
-
+*/
         // Create an instance of the tab layout from the view.
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
@@ -149,22 +161,51 @@ public class MainActivity extends Activity {
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        final PagerClass adapter = new PagerClass(getSupportFragmentManager(), tabLayout.getTabCount());
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        final PagerAdapter adapter = new PagerAdapter() {
-            @Override
-            public int getCount() {
-                return 0;
-            }
-
-            @Override
-            public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-                return false;
-            }
-        };
+        viewPager.setAdapter(adapter);
 
         // Setting a listener for clicks.
-        viewPager.addOnPageChangeListener(new
-                TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+
+    }
+
+    public void tabCreate () {
+        // Create an instance of the tab layout from the view.
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+
+        // Set the text for each tab.
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_label1));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_label2));
+
+        //Tablayoutets farve og skrifttype
+        tabLayout.setTabTextColors(R.color.grey_text, R.color.primary_white);
+        tabLayout.setBackgroundColor(getResources().getColor(R.color.primary_white));
+
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        final PagerClass adapter = new PagerClass(getSupportFragmentManager(), tabLayout.getTabCount());
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(adapter);
+
+        // Setting a listener for clicks.
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -180,6 +221,7 @@ public class MainActivity extends Activity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+
 
     }
 
@@ -243,7 +285,7 @@ public class MainActivity extends Activity {
         ArrayList<PieEntry> Vand = new ArrayList<>();
         Vand.clear();
         waterUsage = waterUsageList.get(curArrayPlacement);
-        float waterGoal = 10000;
+        TextView time = (TextView) findViewById(R.id.timeUsed);
 
         if (waterUsage <= waterGoal) {
             float sparet = waterGoal - (float)waterUsage;
@@ -261,7 +303,9 @@ public class MainActivity extends Activity {
                 liter.setText(Integer.toString(dummy/ 1000) + "L");
             }
             else {
-                liter.setText(Float.toString(sparet/ 1000) + "L");
+                float dummy = sparet / 1000;
+                String dummy2 = new DecimalFormat("#.##").format(dummy);
+                liter.setText(dummy2);
             }
 
             if (waterUsage % 1 == 0 && waterGoal % 1 == 0){
@@ -270,9 +314,24 @@ public class MainActivity extends Activity {
                 percent.setText((dummy / 1000) + " / " + (dummy2 / 1000));
             }
             else {
-                percent.setText((waterUsage / 1000) + " / " + (waterGoal / 1000));
+                double dummyFloat1 = waterUsage / 1000;
+                double dummyFloat2 = waterGoal / 1000;
+                String dummy1 = new DecimalFormat("#.##").format(dummyFloat1);
+                String dummy2 = new DecimalFormat("#.##").format(dummyFloat2);
+                percent.setText(dummy1 + dummy2);
             }
 
+            if (timeUsedList.get(curArrayPlacement) % 1 == 0) {
+                double caster = timeUsedList.get(curArrayPlacement);
+                int dummy = (int) caster;
+                dummy = dummy / 1000;
+                time.setText(String.valueOf(dummy));
+            }
+            else {
+                double dummy = timeUsedList.get(curArrayPlacement) / 1000;
+                String dummy2 = new DecimalFormat("#.##").format(dummy);
+                time.setText(dummy2);
+            }
 
             PieDataSet dataSet = new PieDataSet(Vand, " ");
             dataSet.setSliceSpace(0f);
@@ -291,10 +350,12 @@ public class MainActivity extends Activity {
             data.setDrawValues(false);
             pieChart.setData(data);
             pieChart.invalidate();
+
         }
 
         else {
             float forMeget = waterGoal - (float)waterUsage;
+            int overForbrug = (int)Math.abs(forMeget);
             forMeget = Math.abs(forMeget);
             forMeget = (float)waterUsage - forMeget;
             Vand.add((new PieEntry(forMeget, "")));
@@ -307,11 +368,12 @@ public class MainActivity extends Activity {
             saved.setText("Overbrugt");
 
             if (forMeget % 1 == 0){
-                int dummy = Math.round(forMeget);
-                liter.setText(Integer.toString(dummy/ 1000) + "L");
+                liter.setText(Integer.toString((overForbrug / 1000) ) + "L");
             }
             else {
-                liter.setText(Float.toString(forMeget/ 1000) + "L");
+                double dummy = forMeget / 1000;
+                String dummy2 = new DecimalFormat("#.##").format(dummy);
+                liter.setText(dummy2 + "L");
             }
 
             if (waterUsage % 1 == 0 && waterGoal % 1 == 0){
@@ -320,9 +382,24 @@ public class MainActivity extends Activity {
                 percent.setText((dummy / 1000) + " / " + (dummy2 / 1000));
             }
             else {
-                percent.setText((waterUsage / 1000) + " / " + (waterGoal / 1000));
+                double dummy = waterUsage / 1000;
+                double dummy2 = waterUsage / 1000;
+                String dummy3 = new DecimalFormat("#.##").format(dummy);
+                String dummy4 = new DecimalFormat("#.##").format(dummy2);
+                percent.setText(dummy3 + " / " + dummy4);
             }
 
+            if (timeUsedList.get(curArrayPlacement) % 1 == 0) {
+                double caster = timeUsedList.get(curArrayPlacement);
+                int dummy = (int) caster;
+                dummy = dummy / 1000;
+                time.setText(String.valueOf(dummy));
+            }
+            else {
+                double dummy = timeUsedList.get(curArrayPlacement) / 1000;
+                String dummy2 = new DecimalFormat("#.##").format(dummy);
+                time.setText(dummy2);
+            }
 
             PieDataSet dataSet = new PieDataSet(Vand, " ");
             dataSet.setSliceSpace(0f);
@@ -351,6 +428,7 @@ public class MainActivity extends Activity {
     }
 
     public AsyncTaskParseJson doInBackground = new AsyncTaskParseJson();
+
     Thread thread = new Thread(new Runnable() {
         @Override
         public void run() {
@@ -372,10 +450,10 @@ public class MainActivity extends Activity {
             Looper.prepare();
             Log.d("xD", "Vi er færdige");
             listTransfer();
-            //calculater();
             runOnUiThread(new Runnable() {
                 public void run() {
-                    pieDrawerGrey();
+                    mainActivitySetup();
+/*                    pieDrawerGrey();
                     pieDrawer();
                     TextView date = (TextView) findViewById(R.id.calenderView);
                     TextView flow = (TextView) findViewById(R.id.flowUsed);
@@ -418,7 +496,7 @@ public class MainActivity extends Activity {
                         datoTop.setText(cap.toString());
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }
+                    }*/
                 }
             });
             Looper.loop();
@@ -437,8 +515,7 @@ public class MainActivity extends Activity {
         else {
             count = ((waterUsageList.get(curArrayPlacement) / 1000) * 44 * 4);
         }
-
-        String stringer = String.valueOf(count);
+        String stringer = new DecimalFormat("#.##").format(count).toString();
         return stringer;
     }
 
@@ -460,6 +537,7 @@ public class MainActivity extends Activity {
             TextView flow = (TextView) findViewById(R.id.flowUsed);
             TextView time = (TextView) findViewById(R.id.timeUsed);
             TextView money = (TextView) findViewById(R.id.moneyUsed);
+            TextView percent = (TextView) findViewById(R.id.savedPercent);
 
             pieDrawer();
             money.setText(priceCount());
@@ -485,16 +563,33 @@ public class MainActivity extends Activity {
             }
             else {
                 double dummy = flowList.get(curArrayPlacement) / 1000;
-                flow.setText(Double.toString(dummy));
+                String dummy2 = new DecimalFormat("#.##").format(dummy);
+                flow.setText(dummy2);
             }
 
             if (timeUsedList.get(curArrayPlacement) % 1 == 0) {
                 double caster = timeUsedList.get(curArrayPlacement);
                 int dummy = (int) caster;
+                dummy = dummy / 1000;
                 time.setText(String.valueOf(dummy));
             }
             else {
-                time.setText(flowList.get(curArrayPlacement).toString());
+                double dummy = timeUsedList.get(curArrayPlacement) / 1000;
+                String dummy2 = new DecimalFormat("#.##").format(dummy);
+                time.setText(dummy2);
+            }
+
+            if (waterUsage % 1 == 0 && waterGoal % 1 == 0){
+                int dummy = (int) waterUsage;
+                int dummy2 = Math.round(waterGoal);
+                percent.setText((dummy / 1000) + " / " + (dummy2 / 1000));
+            }
+            else {
+                double dummy = waterUsage / 1000;
+                double dummy2 = waterGoal / 1000;
+                String dummy3 = new DecimalFormat("#.##").format(dummy);
+                String dummy4 = new DecimalFormat("#.##").format(dummy2);
+                percent.setText(dummy3 + " / " + dummy4);
             }
         }
 
@@ -511,6 +606,8 @@ public class MainActivity extends Activity {
             TextView flow = (TextView) findViewById(R.id.flowUsed);
             TextView time = (TextView) findViewById(R.id.timeUsed);
             TextView money = (TextView) findViewById(R.id.moneyUsed);
+            TextView percent = (TextView) findViewById(R.id.savedPercent);
+
 
             pieDrawer();
             money.setText(priceCount());
@@ -535,18 +632,36 @@ public class MainActivity extends Activity {
             }
             else {
                 double dummy = flowList.get(curArrayPlacement) / 1000;
-                flow.setText(Double.toString(dummy));
+                String dummy2 = new DecimalFormat("#.##").format(dummy);
+//                df.format(dummy);
+                flow.setText(dummy2);
             }
 
             if (timeUsedList.get(curArrayPlacement) % 1 == 0) {
                 double caster = timeUsedList.get(curArrayPlacement);
                 int dummy = (int) caster;
+                dummy = dummy / 1000;
                 time.setText(String.valueOf(dummy));
             }
             else {
-                time.setText(flowList.get(curArrayPlacement).toString());
+                double dummy = timeUsedList.get(curArrayPlacement) / 1000;
+                //df.format(dummy);
+                String dummy2 = new DecimalFormat("#.##").format(dummy);
+                time.setText(dummy2);
+            }
+            if (waterUsage % 1 == 0 && waterGoal % 1 == 0){
+                int dummy = (int) waterUsage;
+                int dummy2 = Math.round(waterGoal);
+                percent.setText((dummy / 1000) + " / " + (dummy2 / 1000));
+            }
+            else {
+                double dummy = waterUsage / 1000;
+                double dummy2 = waterGoal / 1000;
+                String dummy3 = new DecimalFormat("#.##").format(dummy);
+                String dummy4 = new DecimalFormat("#.##").format(dummy2);
+                percent.setText(dummy3 + " / " + dummy4);
             }
         }
     }
+    }
 
-}

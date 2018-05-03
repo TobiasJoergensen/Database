@@ -1,18 +1,372 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="98dp"
-        android:layout_marginRight="98dp"
-        android:layout_marginTop="226dp"
-        android:text="This is number 1 erifdhc iefh icue hfdsiuceh fh ceids fheh dsfhc besdh fburce dsvh ebdshh bejw hfuiewhsuihdwoihfcrejhf ieh fiue hiuh rfuiew hihf iuewhf hei fie hfiuew hfiudw heiufh eiuw hrfiue wsgfhiuhedwiufh"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/primary_white"
+        android:textSize="14sp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabIndicatorColor="@color/grey_text"
+        app:tabTextAppearance="@style/MineCustomTabText" />
 
-</RelativeLayout>
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewOuter"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:layout_marginEnd="0dp"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tab_layout"
+        app:layout_constraintEnd_toEndOf="@+id/tab_layout"
+        app:layout_constraintStart_toStartOf="@+id/tab_layout"
+        app:layout_constraintTop_toTopOf="@+id/tab_layout">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cardViewInner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="-15dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/primary_white"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="10dp"
+            app:contentPaddingBottom="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tab_layout"
+            app:layout_constraintVertical_bias="1.0">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChartGrey"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="@+id/view"
+                app:layout_constraintStart_toStartOf="@+id/view"
+                app:layout_constraintTop_toBottomOf="@+id/calenderView"
+                app:layout_constraintVertical_bias="0.0">
+
+            </com.github.mikephil.charting.charts.PieChart>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="@+id/literMinute"
+                app:layout_constraintStart_toStartOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/calenderView"
+                app:layout_constraintVertical_bias="0.0">
+
+            </com.github.mikephil.charting.charts.PieChart>
+
+            <TextView
+                android:id="@+id/literSaved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="15L"
+                android:textSize="40sp"
+                app:layout_constraintBottom_toBottomOf="@+id/pieChart"
+                app:layout_constraintEnd_toEndOf="@+id/pieChart"
+                app:layout_constraintStart_toStartOf="@+id/pieChart"
+                app:layout_constraintTop_toTopOf="@+id/pieChart" />
+
+            <TextView
+                android:id="@+id/sparetSting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:text="sparet"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/pieChart"
+                app:layout_constraintStart_toStartOf="@+id/pieChart"
+                app:layout_constraintTop_toBottomOf="@+id/literSaved" />
+
+            <TextView
+                android:id="@+id/savedPercent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="100 / 133"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/pieChart"
+                app:layout_constraintEnd_toEndOf="@+id/pieChart"
+                app:layout_constraintStart_toStartOf="@+id/pieChart"
+                app:layout_constraintTop_toTopOf="@+id/pieChart"
+                app:layout_constraintVertical_bias="0.85" />
+
+            <TextView
+                android:id="@+id/calenderView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="xD"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/flowUsed"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:gravity="end"
+                android:text="13.5"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/flowView"
+                app:layout_constraintEnd_toStartOf="@+id/literMinute"
+                app:layout_constraintStart_toEndOf="@+id/flowView"
+                app:layout_constraintTop_toTopOf="@+id/flowView" />
+
+            <TextView
+                android:id="@+id/timeUsed"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:gravity="end"
+                android:text="10:34"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/timeView"
+                app:layout_constraintEnd_toStartOf="@+id/timeTotal"
+                app:layout_constraintStart_toEndOf="@+id/timeView"
+                app:layout_constraintTop_toTopOf="@+id/timeView" />
+
+            <TextView
+                android:id="@+id/moneyUsed"
+                android:layout_width="0dp"
+                android:layout_height="19dp"
+                android:layout_marginStart="8dp"
+                android:gravity="end"
+                android:text="10,24"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/moneySpent"
+                app:layout_constraintStart_toEndOf="@+id/moneyView"
+                app:layout_constraintTop_toTopOf="@+id/moneyView" />
+
+            <TextView
+                android:id="@+id/flowView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="0dp"
+                android:gravity="start"
+                android:paddingLeft="0dp"
+                android:text="Flow"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+            <TextView
+                android:id="@+id/moneyView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="0dp"
+                android:gravity="start"
+                android:paddingLeft="0dp"
+                android:text="Pris"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView3"
+                app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+
+            <TextView
+                android:id="@+id/timeView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="start"
+                android:paddingLeft="0dp"
+                android:text="Tid"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="@+id/imageView2" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/primary_white"
+                android:onClick="leftClick"
+                android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.15"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/primary_white"
+                android:onClick="rightClick"
+                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.85"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="0dp"
+                android:src="@drawable/ic_timer_black_24dp"
+                app:layout_constraintBottom_toTopOf="@+id/imageView3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="5dp"
+                android:paddingStart="0dp"
+                android:src="@drawable/ic_attach_money_black_24dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                app:layout_constraintVertical_bias="0.7" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="0dp"
+                android:src="@drawable/ic_shape"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.68" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/shadow_color"
+                app:layout_constraintBottom_toTopOf="@+id/flowView"
+                app:layout_constraintEnd_toEndOf="@+id/literMinute"
+                app:layout_constraintStart_toStartOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/pieChart"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/shadow_color"
+                app:layout_constraintBottom_toTopOf="@+id/imageView2"
+                app:layout_constraintEnd_toEndOf="@+id/timeTotal"
+                app:layout_constraintStart_toStartOf="@+id/imageView2"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                app:layout_constraintVertical_bias="0.9" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/shadow_color"
+                app:layout_constraintBottom_toTopOf="@+id/imageView3"
+                app:layout_constraintEnd_toEndOf="@+id/moneySpent"
+                app:layout_constraintStart_toStartOf="@+id/imageView3"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2"
+                app:layout_constraintVertical_bias="0.9" />
+
+            <TextView
+                android:id="@+id/literMinute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text=" l/min"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.95"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/flowUsed" />
+
+            <TextView
+                android:id="@+id/timeTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text=" sekunder"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.95"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/timeUsed" />
+
+            <TextView
+                android:id="@+id/moneySpent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text=" kr"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.95"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/moneyView" />
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>
