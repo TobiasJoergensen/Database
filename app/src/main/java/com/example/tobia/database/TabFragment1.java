@@ -362,7 +362,7 @@ public class TabFragment1 extends Fragment {
                 String dummy4 = new DecimalFormat("#.##").format(dummy2);
                 text.setText(dummy3 + " / " + dummy4);
                 text = (TextView) view.findViewById(R.id.savedPercent);
-                text.setText(dummy3 + " / " + dummy3);
+                text.setText(dummy3 + " / " + dummy4);
             }
 
             try {
@@ -437,10 +437,9 @@ public class TabFragment1 extends Fragment {
             return stringer;
         }
         else {
-            count = ((waterUsageList.get(curArrayPlacement) / 1000) * 44 * 4);
+            count = ((waterUsageList.get(curArrayPlacement) / 1000) * 44 * 4 / 1000);
         }
-
-        String stringer = String.valueOf(count);
+        String stringer = new DecimalFormat("#.##").format(count).toString();
         return stringer;
     }
 

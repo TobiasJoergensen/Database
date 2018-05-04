@@ -161,5 +161,6 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
 
 
     protected void onPostExecute(String strFromDoInBg) {
+
     }
 }

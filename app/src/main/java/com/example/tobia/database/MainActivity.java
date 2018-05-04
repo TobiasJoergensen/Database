@@ -513,7 +513,7 @@ public class MainActivity extends AppCompatActivity {
             return stringer;
         }
         else {
-            count = ((waterUsageList.get(curArrayPlacement) / 1000) * 44 * 4);
+            count = ((waterUsageList.get(curArrayPlacement) / 1000) * 44 * 4 / 1000);
         }
         String stringer = new DecimalFormat("#.##").format(count).toString();
         return stringer;

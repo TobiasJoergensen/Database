@@ -24,6 +24,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,6 +55,15 @@ public class TabFragment2 extends Fragment {
     private static List<String> dateList = new ArrayList<String>();
     private static List<Double> timeUsedList = new ArrayList<Double>();
 
+    public double forbrugTotal;
+    public double tidTotal;
+    public double pengeTotal;
+    public double forbrugGennemsnit;
+    public double tidGennemsnit;
+    public double pengeGennemsnit;
+
+    public int barLength;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,14 +85,70 @@ public class TabFragment2 extends Fragment {
 
         mainActivitySetup();
         overUnderGoalDataSet();
-        mScrollView = (NestedScrollView) view.findViewById(R.id.scroll);
-        mScrollView.setSmoothScrollingEnabled(true);
+        calcTotal();
+        calcAverage();
+    }
+
+    private void calcAverage() {
+        double dummy = 0;
+        String dummy2;
+
+        for(int i = 0; i < barLength; i++) {
+            forbrugGennemsnit = forbrugGennemsnit + (waterUsageList.get(i) / 1000);
+            tidGennemsnit = tidGennemsnit + (timeUsedList.get(i) / 1000);
+            pengeGennemsnit = pengeGennemsnit + (((waterUsageList.get(i) / 1000) * 44 * 4) / 1000);
+        }
+        forbrugGennemsnit = forbrugGennemsnit / barLength;
+        tidGennemsnit = tidGennemsnit / barLength;
+        pengeGennemsnit = pengeGennemsnit / barLength;
+
+        dummy = forbrugGennemsnit;
+        dummy2 = new DecimalFormat("#.##").format(dummy);
+        text = (TextView) view.findViewById(R.id.flowUsed2);
+        text.setText(dummy2);
+
+        dummy = tidGennemsnit;
+        dummy2 = new DecimalFormat("#.##").format(dummy);
+        text = (TextView) view.findViewById(R.id.timeUsed2);
+        text.setText(dummy2);
+
+        dummy = pengeGennemsnit;
+        dummy2 = new DecimalFormat("#.##").format(dummy);
+        text = (TextView) view.findViewById(R.id.moneyUsed2);
+        text.setText(dummy2);
+    }
+
+
+    private void calcTotal() {
+        double dummy = 0;
+        String dummy2;
+
+        for(int i = 0; i < barLength; i++) {
+            forbrugTotal = forbrugTotal + (waterUsageList.get(i) / 1000);
+            tidTotal = tidTotal + (timeUsedList.get(i) / 1000);
+            pengeTotal = pengeTotal + (((waterUsageList.get(i) / 1000) * 44 * 4) / 1000);
+        }
+
+        dummy = forbrugTotal;
+        dummy2 = new DecimalFormat("#.##").format(dummy);
+        text = (TextView) view.findViewById(R.id.flowUsed);
+        text.setText(dummy2);
+
+        dummy = tidTotal;
+        dummy2 = new DecimalFormat("#.##").format(dummy);
+        text = (TextView) view.findViewById(R.id.timeUsed);
+        text.setText(dummy2);
+
+        dummy = pengeTotal;
+        dummy2 = new DecimalFormat("#.##").format(dummy);
+        text = (TextView) view.findViewById(R.id.moneyUsed);
+        text.setText(dummy2);
     }
 
     private void overUnderGoalDataSet(){
         ArrayList<BarEntry> yValues = new ArrayList<>();
 
-        for(int i=0; i < 7; i++){
+        for(int i=0; i < barLength; i++){
 
             if(waterUsageList.get(i) <= userGoal){
                 double dummy = waterUsageList.get(i) / 1000;
@@ -124,7 +190,7 @@ public class TabFragment2 extends Fragment {
         mChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         XAxis xAxis = mChart.getXAxis();
 
-        for(int i=0; i < 7; i++) {
+        for(int i=0; i < barLength; i++) {
             Date dateFirst = null;
 
             String date = dateList.get(i);
@@ -173,7 +239,7 @@ public class TabFragment2 extends Fragment {
 
             //String cap = format.substring(0, 1).toUpperCase() + formatFirst.substring(1);
             text = (TextView) view.findViewById(R.id.calenderViewFrag2);
-            text.setText(formatFirst + " - " + formatOld);
+            text.setText(formatOld + " - " + formatFirst);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -187,9 +253,51 @@ public class TabFragment2 extends Fragment {
         Typeface opensans_regular = Typeface.createFromAsset(getActivity().getResources().getAssets(), "opensans_regular.ttf");
         Typeface opensans_semibold = Typeface.createFromAsset(getActivity().getResources().getAssets(), "opensans_semibold.ttf");
 
+        //Set headlines for scroll and bar views
         text = (TextView) view.findViewById(R.id.calenderViewFrag2);
         text.setTextColor(getActivity().getResources().getColor(R.color.text_color));
         text.setTypeface(opensans_extrabold);
+
+        text = (TextView) view.findViewById(R.id.totalForbrug);
+        text.setTextColor(getActivity().getResources().getColor(R.color.text_color));
+        text.setTypeface(opensans_extrabold);
+
+        text = (TextView) view.findViewById(R.id.gennemsnitForbrug);
+        text.setTextColor(getActivity().getResources().getColor(R.color.text_color));
+        text.setTypeface(opensans_extrabold);
+        text.setText("Gennemsnitligt forbrug");
+
+        //Set scrollview text attributes
+        text = (TextView) view.findViewById(R.id.flowUsed);
+        text.setTextColor(getActivity().getResources().getColor(R.color.text_color));
+        text.setTypeface(opensans_semibold);
+
+        text = (TextView) view.findViewById(R.id.timeUsed);
+        text.setTextColor(getActivity().getResources().getColor(R.color.text_color));
+        text.setTypeface(opensans_semibold);
+
+        text = (TextView) view.findViewById(R.id.moneyUsed);
+        text.setTextColor(getActivity().getResources().getColor(R.color.text_color));
+        text.setTypeface(opensans_semibold);
+
+        text = (TextView) view.findViewById(R.id.flowUsed2);
+        text.setTextColor(getActivity().getResources().getColor(R.color.text_color));
+        text.setTypeface(opensans_semibold);
+
+        text = (TextView) view.findViewById(R.id.timeUsed2);
+        text.setTextColor(getActivity().getResources().getColor(R.color.text_color));
+        text.setTypeface(opensans_semibold);
+
+        text = (TextView) view.findViewById(R.id.moneyUsed2);
+        text.setTextColor(getActivity().getResources().getColor(R.color.text_color));
+        text.setTypeface(opensans_semibold);
+
+        if(idList.size() > 6) {
+            barLength = 7;
+        }
+        else {
+
+        }
     }
 
     private void listTransfer() {
