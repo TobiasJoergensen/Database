@@ -4,19 +4,500 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relativeLayout3"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewOuter"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:textColor="@color/primary_white"
-        android:textSize="14sp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tabIndicatorColor="@color/grey_text"
-        app:tabTextAppearance="@style/MineCustomTabText" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cardViewInner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="-15dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/primary_white"
+            app:cardPreventCornerOverlap="true"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="10dp"
+            app:contentPaddingBottom="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tab_layout"
+            app:layout_constraintVertical_bias="1.0">
+
+            <TextView
+                android:id="@+id/calenderViewFrag2"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Periode"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guidelineTop2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.94" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chart"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineTop2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/calenderViewFrag2">
+
+            </com.github.mikephil.charting.charts.BarChart>
+
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="127dp" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewOuterUnder"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guidelineTop">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/scroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:fillViewport="true"
+                android:orientation="vertical"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guidelineTop">
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/cardViewInnerUnder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/guidelineTop">
+
+                    <TextView
+                        android:id="@+id/flowUsed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="end"
+                        android:text="13.5"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toStartOf="@+id/literMinute"
+                        app:layout_constraintTop_toTopOf="@+id/flowView" />
+
+                    <TextView
+                        android:id="@+id/timeUsed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:text="10:34"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/timeView"
+                        app:layout_constraintEnd_toStartOf="@+id/timeTotal"
+                        app:layout_constraintTop_toTopOf="@+id/timeView" />
+
+                    <TextView
+                        android:id="@+id/moneyUsed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:text="10,24"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toStartOf="@+id/moneySpent"
+                        app:layout_constraintTop_toTopOf="@+id/moneyView" />
+
+                    <TextView
+                        android:id="@+id/flowView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="start"
+                        android:paddingLeft="0dp"
+                        android:text="Flow"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@+id/imageView"
+                        app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+                    <TextView
+                        android:id="@+id/moneyView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="start"
+                        android:paddingLeft="0dp"
+                        android:text="Pris"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@+id/imageView3"
+                        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+
+                    <TextView
+                        android:id="@+id/timeView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="start"
+                        android:paddingLeft="0dp"
+                        android:text="Tid"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@+id/imageView2"
+                        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="0dp"
+                        android:src="@drawable/ic_timer_black_24dp"
+                        app:layout_constraintBottom_toTopOf="@+id/imageView3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.05"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="0dp"
+                        android:src="@drawable/ic_attach_money_black_24dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.05"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView"
+                        app:layout_constraintVertical_bias="0.25" />
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="0dp"
+                        android:src="@drawable/ic_shape"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.05"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/totalForbrug"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="2dp"
+                        android:background="@color/shadow_color"
+                        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+                        app:layout_constraintEnd_toEndOf="@+id/timeTotal"
+                        app:layout_constraintStart_toStartOf="@+id/imageView2"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+                    <View
+                        android:id="@+id/view3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="2dp"
+                        android:background="@color/shadow_color"
+                        app:layout_constraintBottom_toTopOf="@+id/imageView3"
+                        app:layout_constraintEnd_toEndOf="@+id/moneySpent"
+                        app:layout_constraintStart_toStartOf="@+id/imageView3"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+                    <TextView
+                        android:id="@+id/literMinute"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text=" l/min"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.95"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/flowUsed" />
+
+                    <TextView
+                        android:id="@+id/timeTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text=" sekunder"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.95"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/timeUsed" />
+
+                    <TextView
+                        android:id="@+id/moneySpent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text=" kr"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.95"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/moneyView" />
+
+                    <TextView
+                        android:id="@+id/totalForbrug"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Total forbrug"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/gennemsnitForbrug"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Total forbrug"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/imageView3" />
+
+                    <TextView
+                        android:id="@+id/flowUsed2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="end"
+                        android:text="13.5"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toStartOf="@+id/literMinute2"
+                        app:layout_constraintTop_toTopOf="@+id/flowView2" />
+
+                    <TextView
+                        android:id="@+id/timeUsed2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:text="10:34"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/timeView2"
+                        app:layout_constraintEnd_toStartOf="@+id/timeTotal2"
+                        app:layout_constraintTop_toTopOf="@+id/timeView2" />
+
+                    <TextView
+                        android:id="@+id/moneyUsed2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:text="10,24"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toStartOf="@+id/moneySpent2"
+                        app:layout_constraintTop_toTopOf="@+id/moneyView2" />
+
+                    <TextView
+                        android:id="@+id/flowView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="start"
+                        android:paddingLeft="0dp"
+                        android:text="Flow"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@+id/imageViewGennemsnit"
+                        app:layout_constraintTop_toTopOf="@+id/imageViewGennemsnit" />
+
+                    <TextView
+                        android:id="@+id/moneyView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="start"
+                        android:paddingLeft="0dp"
+                        android:text="Pris"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@+id/imageViewGennemsnit3"
+                        app:layout_constraintTop_toTopOf="@+id/imageViewGennemsnit3" />
+
+
+                    <TextView
+                        android:id="@+id/timeView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="start"
+                        android:paddingLeft="0dp"
+                        android:text="Tid"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@+id/imageViewGennemsnit2"
+                        app:layout_constraintTop_toTopOf="@+id/imageViewGennemsnit2" />
+
+                    <ImageView
+                        android:id="@+id/imageViewGennemsnit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="0dp"
+                        android:src="@drawable/ic_shape"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.05"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/gennemsnitForbrug"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageView
+                        android:id="@+id/imageViewGennemsnit2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="25dp"
+                        android:layout_marginTop="25dp"
+                        android:paddingEnd="5dp"
+
+                        android:paddingStart="0dp"
+                        android:src="@drawable/ic_timer_black_24dp"
+                        app:layout_constraintBottom_toTopOf="@+id/imageViewGennemsnit3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.05"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageViewGennemsnit" />
+
+                    <ImageView
+                        android:id="@+id/imageViewGennemsnit3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="80dp"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="0dp"
+                        android:src="@drawable/ic_attach_money_black_24dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.05"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/imageViewGennemsnit"
+                        app:layout_constraintVertical_bias="1.0" />
+
+                    <View
+                        android:id="@+id/viewGennemsnit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="2dp"
+                        android:background="@color/shadow_color"
+                        app:layout_constraintBottom_toTopOf="@+id/imageViewGennemsnit2"
+                        app:layout_constraintEnd_toEndOf="@+id/timeTotal2"
+                        app:layout_constraintStart_toStartOf="@+id/imageViewGennemsnit2"
+                        app:layout_constraintTop_toBottomOf="@+id/imageViewGennemsnit" />
+
+                    <View
+                        android:id="@+id/viewGennemsnit2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="2dp"
+                        android:background="@color/shadow_color"
+                        app:layout_constraintBottom_toTopOf="@+id/imageViewGennemsnit3"
+                        app:layout_constraintEnd_toEndOf="@+id/moneySpent2"
+                        app:layout_constraintStart_toStartOf="@+id/imageViewGennemsnit3"
+                        app:layout_constraintTop_toBottomOf="@+id/imageViewGennemsnit2" />
+
+                    <TextView
+                        android:id="@+id/literMinute2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text=" l/min"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.95"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/flowUsed2" />
+
+                    <TextView
+                        android:id="@+id/timeTotal2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text=" sekunder"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.95"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/timeUsed2" />
+
+                    <TextView
+                        android:id="@+id/moneySpent2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text=" kr"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.95"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/moneyView2" />
+
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v4.widget.NestedScrollView>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 
 </android.support.constraint.ConstraintLayout>

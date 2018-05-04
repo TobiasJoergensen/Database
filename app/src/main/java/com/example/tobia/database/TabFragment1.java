@@ -52,7 +52,6 @@ public class TabFragment1 extends Fragment {
     ViewGroup viewGroup;
     DecimalFormat df = new DecimalFormat();
 
-
     private static List<Double> listen = new ArrayList<>();
     private static List<Integer> idList = new ArrayList<Integer>();
     private static List<Double> tempList = new ArrayList<Double>();

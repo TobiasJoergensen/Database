@@ -527,6 +527,7 @@ public class MainActivity extends AppCompatActivity {
         dateList = doInBackground.getDateList();
         timeUsedList = doInBackground.getTimeUsed();
     }
+
     public void leftClick(View view) {
         Log.d("størrelse: ", Integer.toString(idList.size()));
         Log.d("størrelse: ", Integer.toString(curArrayPlacement));
