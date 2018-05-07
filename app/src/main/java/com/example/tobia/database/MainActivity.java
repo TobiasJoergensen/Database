@@ -18,6 +18,9 @@ import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -321,17 +324,19 @@ public class MainActivity extends AppCompatActivity {
                 percent.setText(dummy1 + dummy2);
             }
 
-            if (timeUsedList.get(curArrayPlacement) % 1 == 0) {
-                double caster = timeUsedList.get(curArrayPlacement);
-                int dummy = (int) caster;
-                dummy = dummy / 1000;
-                time.setText(String.valueOf(dummy));
+            double caster = timeUsedList.get(curArrayPlacement);
+            int dummytime = (int) caster;
+            dummytime = dummytime/ 1000;
+            if(dummytime > 60) {
+                int dummytime2 = dummytime / 60;
+                dummytime = dummytime % (dummytime2 * 60);
+                String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
+                SpannableString ss = new SpannableString(spannable);
+                ss.setSpan(new RelativeSizeSpan(1f), spannable.length() - 3, spannable.length(), 0);
+                ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 0, 5, 0);// set color
+                time.setText(ss);
             }
-            else {
-                double dummy = timeUsedList.get(curArrayPlacement) / 1000;
-                String dummy2 = new DecimalFormat("#.##").format(dummy);
-                time.setText(dummy2);
-            }
+            else {time.setText(String.valueOf(dummytime));}
 
             PieDataSet dataSet = new PieDataSet(Vand, " ");
             dataSet.setSliceSpace(0f);
@@ -357,9 +362,14 @@ public class MainActivity extends AppCompatActivity {
             float forMeget = waterGoal - (float)waterUsage;
             int overForbrug = (int)Math.abs(forMeget);
             forMeget = Math.abs(forMeget);
-            forMeget = (float)waterUsage - forMeget;
-            Vand.add((new PieEntry(forMeget, "")));
-            Vand.add(new PieEntry((float)waterUsage,  ""));
+//            forMeget = (float)waterUsage - forMeget;
+            if(waterUsage > waterGoal * 2) {
+                Vand.add(new PieEntry((float)waterUsage,  ""));
+            }
+            else {
+                Vand.add((new PieEntry(forMeget, "")));
+                Vand.add(new PieEntry(waterGoal - forMeget ,  ""));
+            }
 
             TextView liter = (TextView) findViewById(R.id.literSaved);
             TextView percent = (TextView) findViewById(R.id.savedPercent);
@@ -389,17 +399,19 @@ public class MainActivity extends AppCompatActivity {
                 percent.setText(dummy3 + " / " + dummy4);
             }
 
-            if (timeUsedList.get(curArrayPlacement) % 1 == 0) {
-                double caster = timeUsedList.get(curArrayPlacement);
-                int dummy = (int) caster;
-                dummy = dummy / 1000;
-                time.setText(String.valueOf(dummy));
+            double caster = timeUsedList.get(curArrayPlacement);
+            int dummytime = (int) caster;
+            dummytime = dummytime/ 1000;
+            if(dummytime > 60) {
+                int dummytime2 = dummytime / 60;
+                dummytime = dummytime % (dummytime2 * 60);
+                String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
+                SpannableString ss = new SpannableString(spannable);
+                ss.setSpan(new RelativeSizeSpan(1f), spannable.length() - 3, spannable.length(), 0);
+                ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 0, 5, 0);// set color
+                time.setText(ss);
             }
-            else {
-                double dummy = timeUsedList.get(curArrayPlacement) / 1000;
-                String dummy2 = new DecimalFormat("#.##").format(dummy);
-                time.setText(dummy2);
-            }
+            else {time.setText(String.valueOf(dummytime));}
 
             PieDataSet dataSet = new PieDataSet(Vand, " ");
             dataSet.setSliceSpace(0f);
@@ -526,6 +538,8 @@ public class MainActivity extends AppCompatActivity {
         flowList = doInBackground.getFlowList();
         dateList = doInBackground.getDateList();
         timeUsedList = doInBackground.getTimeUsed();
+        waterGoal = doInBackground.getUserGoalList().get(0);
+        waterGoal = waterGoal * 1000;
     }
 
     public void leftClick(View view) {
@@ -568,17 +582,19 @@ public class MainActivity extends AppCompatActivity {
                 flow.setText(dummy2);
             }
 
-            if (timeUsedList.get(curArrayPlacement) % 1 == 0) {
-                double caster = timeUsedList.get(curArrayPlacement);
-                int dummy = (int) caster;
-                dummy = dummy / 1000;
-                time.setText(String.valueOf(dummy));
+            double caster = timeUsedList.get(curArrayPlacement);
+            int dummytime = (int) caster;
+            dummytime = dummytime/ 1000;
+            if(dummytime > 60) {
+                int dummytime2 = dummytime / 60;
+                dummytime = dummytime % (dummytime2 * 60);
+                String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
+                SpannableString ss = new SpannableString(spannable);
+                ss.setSpan(new RelativeSizeSpan(1f), spannable.length() - 3, spannable.length(), 0);
+                ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 1, 5, 0);// set color
+                time.setText(ss);
             }
-            else {
-                double dummy = timeUsedList.get(curArrayPlacement) / 1000;
-                String dummy2 = new DecimalFormat("#.##").format(dummy);
-                time.setText(dummy2);
-            }
+            else {time.setText(String.valueOf(dummytime));}
 
             if (waterUsage % 1 == 0 && waterGoal % 1 == 0){
                 int dummy = (int) waterUsage;
@@ -638,18 +654,20 @@ public class MainActivity extends AppCompatActivity {
                 flow.setText(dummy2);
             }
 
-            if (timeUsedList.get(curArrayPlacement) % 1 == 0) {
-                double caster = timeUsedList.get(curArrayPlacement);
-                int dummy = (int) caster;
-                dummy = dummy / 1000;
-                time.setText(String.valueOf(dummy));
+            double caster = timeUsedList.get(curArrayPlacement);
+            int dummytime = (int) caster;
+            dummytime = dummytime/ 1000;
+            if(dummytime > 60) {
+                int dummytime2 = dummytime / 60;
+                dummytime = dummytime % (dummytime2 * 60);
+                String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
+                SpannableString ss = new SpannableString(spannable);
+                ss.setSpan(new RelativeSizeSpan(1f), spannable.length() - 3, spannable.length(), 0);
+                ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 1, 5, 0);// set color
+                time.setText(ss);
             }
-            else {
-                double dummy = timeUsedList.get(curArrayPlacement) / 1000;
-                //df.format(dummy);
-                String dummy2 = new DecimalFormat("#.##").format(dummy);
-                time.setText(dummy2);
-            }
+            else {time.setText(String.valueOf(dummytime));}
+
             if (waterUsage % 1 == 0 && waterGoal % 1 == 0){
                 int dummy = (int) waterUsage;
                 int dummy2 = Math.round(waterGoal);

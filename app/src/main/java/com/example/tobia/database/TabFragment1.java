@@ -10,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -291,20 +294,19 @@ public class TabFragment1 extends Fragment {
                 text.setText(dummy2);
             }
 
-            if (timeUsedList.get(curArrayPlacement) % 1 == 0) {
-                double caster = timeUsedList.get(curArrayPlacement);
-                int dummy = (int) caster;
-                dummy = dummy / 1000;
+            double caster = timeUsedList.get(curArrayPlacement);
+            int dummytime = (int) caster;
+            dummytime = dummytime/ 1000;
+            if(dummytime > 60) {
+                int dummytime2 = dummytime / 60;
+                dummytime = dummytime % (dummytime2 * 60);
+                String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
+                SpannableString ss = new SpannableString(spannable);
+                ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 1, 5, 0);// set color
                 text = (TextView) view.findViewById(R.id.timeUsed);
-                text.setText(String.valueOf(dummy));
+                text.setText(ss);
             }
-            else {
-                double dummy = timeUsedList.get(curArrayPlacement) / 1000;
-                String dummy2 = new DecimalFormat("#.##").format(dummy);
-                text = (TextView) view.findViewById(R.id.timeUsed);
-                text.setText(dummy2);
-            }
-
+            else { text = (TextView) view.findViewById(R.id.timeUsed); text.setText(String.valueOf(dummytime));}
 
             PieDataSet dataSet = new PieDataSet(Vand, " ");
             dataSet.setSliceSpace(0f);
@@ -329,10 +331,14 @@ public class TabFragment1 extends Fragment {
             float forMeget = waterGoal - (float)waterUsage;
             int overForbrug = (int)Math.abs(forMeget);
             forMeget = Math.abs(forMeget);
-            forMeget = (float)waterUsage - forMeget;
-            Vand.add((new PieEntry(forMeget, "")));
-            Vand.add(new PieEntry((float)waterUsage,  ""));
-
+            //          forMeget = (float)waterUsage - forMeget;
+            if(waterUsage > waterGoal * 2) {
+                Vand.add(new PieEntry((float)waterUsage,  ""));
+            }
+            else {
+                Vand.add((new PieEntry(forMeget, "")));
+                Vand.add(new PieEntry(waterGoal - forMeget,  ""));
+            }
             text = (TextView) view.findViewById(R.id.sparetSting);
             text.setText("Overbrugt");
 
@@ -393,19 +399,19 @@ public class TabFragment1 extends Fragment {
                 text.setText(dummy2);
             }
 
-            if (timeUsedList.get(curArrayPlacement) % 1 == 0) {
-                double caster = timeUsedList.get(curArrayPlacement);
-                int dummy = (int) caster;
-                dummy = dummy / 1000;
+            double caster = timeUsedList.get(curArrayPlacement);
+            int dummytime = (int) caster;
+            dummytime = dummytime/ 1000;
+            if(dummytime > 60) {
+                int dummytime2 = dummytime / 60;
+                dummytime = dummytime % (dummytime2 * 60);
+                String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
+                SpannableString ss = new SpannableString(spannable);
+                ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 0, 5, 0);// set color
                 text = (TextView) view.findViewById(R.id.timeUsed);
-                text.setText(String.valueOf(dummy));
+                text.setText(ss);
             }
-            else {
-                double dummy = timeUsedList.get(curArrayPlacement) / 1000;
-                String dummy2 = new DecimalFormat("#.##").format(dummy);
-                text = (TextView) view.findViewById(R.id.timeUsed);
-                text.setText(dummy2);
-            }
+            else { text = (TextView) view.findViewById(R.id.timeUsed); text.setText(String.valueOf(dummytime));}
 
             PieDataSet dataSet = new PieDataSet(Vand, " ");
             dataSet.setSliceSpace(0f);
@@ -453,6 +459,8 @@ public class TabFragment1 extends Fragment {
         flowList = lister.getFlowList();
         dateList = lister.getDateList();
         timeUsedList = lister.getTimeUsed();
+        waterGoal = lister.getUserGoalList().get(0);
+        waterGoal = waterGoal * 1000;
     }
 
     public void leftClick(View view) {
@@ -493,15 +501,15 @@ public class TabFragment1 extends Fragment {
                 flow.setText(Double.toString(dummy));
             }
 
-            if (timeUsedList.get(curArrayPlacement) % 1 == 0) {
-                double caster = timeUsedList.get(curArrayPlacement);
-                int dummy = (int) caster;
-                time.setText(String.valueOf(dummy));
+            double caster = timeUsedList.get(curArrayPlacement);
+            int dummytime = (int) caster;
+            dummytime = dummytime/ 1000;
+            if(dummytime > 60) {
+                int dummytime2 = dummytime / 60;
+                dummytime = dummytime % (dummytime2 * 60);
+                time.setText(String.valueOf(dummytime2) + " min " + String.valueOf(dummytime));
             }
-            else {
-                time.setText(flowList.get(curArrayPlacement).toString());
-            }
-        }
+            else {time.setText(String.valueOf(dummytime));}}
 
     }
 
@@ -543,14 +551,20 @@ public class TabFragment1 extends Fragment {
                 flow.setText(Double.toString(dummy));
             }
 
-            if (timeUsedList.get(curArrayPlacement) % 1 == 0) {
-                double caster = timeUsedList.get(curArrayPlacement);
-                int dummy = (int) caster;
-                time.setText(String.valueOf(dummy));
+            double caster = timeUsedList.get(curArrayPlacement);
+            int dummytime = (int) caster;
+            dummytime = dummytime/ 1000;
+            if(dummytime > 60) {
+                int dummytime2 = dummytime / 60;
+                dummytime = dummytime % (dummytime2 * 60);
+                String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
+                SpannableString ss = new SpannableString(spannable);
+                ss.setSpan(new RelativeSizeSpan(2f), spannable.length() - 3, spannable.length(), 0);
+                ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 0, 5, 0);// set color
+                text = (TextView) view.findViewById(R.id.timeUsed);
+                text.setText(ss);
             }
-            else {
-                time.setText(flowList.get(curArrayPlacement).toString());
-            }
+            else {time.setText(String.valueOf(dummytime));}
         }
     }
 }

@@ -31,10 +31,13 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
     final String TAG = "AsyncTaskParseJson.java";
 
     String yourJsonStringUrl = "http://jimmibagger.dk/getter.php";
+    String yourJsonStringUrlUserGoal = "http://jimmibagger.dk/getterUserGoal.php";
 
     JSONArray dataJsonArr = null;
+    JSONArray dataJsonArrUserGoal = null;
 
     public JSONObject jObj = null;
+    public JSONObject jObjUserGoal = null;
 
     private static List<Integer> idList = new ArrayList<Integer>();
     private static List<Double> tempList = new ArrayList<Double>();
@@ -65,6 +68,10 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
     public List<PieEntry> getDatePieList() { return datePieList; }
     public List<PieEntry> getTimeUsedPieList() { return timeUsedPieList; }
 
+    private  static List<Float> userGoalList = new ArrayList<>();
+
+    public List<Float> getUserGoalList() { return  userGoalList;}
+
     @Override
     protected void onPreExecute() {}
 
@@ -93,6 +100,7 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
         flowList.clear();
         dateList.clear();
         timeUsedList.clear();
+        userGoalList.clear();
 
         HttpClient httpClient = new DefaultHttpClient(new BasicHttpParams());
 
@@ -155,6 +163,46 @@ public class AsyncTaskParseJson extends AsyncTask<String, String, String> {
         catch (JSONException e) {
             e.printStackTrace();
         }
+
+        HttpGet httpPostUserGoal = new HttpGet(yourJsonStringUrlUserGoal);
+        String jsonResultUserGoal = "";
+
+        try {
+
+            HttpResponse responseUserGoal = httpClient.execute(httpPostUserGoal);
+
+            jsonResultUserGoal = inputStreamToString(responseUserGoal.getEntity().getContent()).toString();
+
+            System.out.println("Returned Json object " + jsonResultUserGoal.toString());
+            Log.d(jsonResultUserGoal.toString(), "ting");
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            jObjUserGoal = new JSONObject(jsonResultUserGoal);
+        } catch (JSONException e) {
+            Log.e(TAG, "Error parsing data " + e.toString());
+        }
+
+        try {
+            dataJsonArrUserGoal = jObjUserGoal.getJSONArray("DocumentSequence");
+            for (int i = 0; i < dataJsonArrUserGoal.length(); i++) {
+                JSONObject c = dataJsonArrUserGoal.getJSONObject(i);
+                String id = c.getString("id");
+                String userGoal = c.getString("command");
+
+                userGoalList.add(Float.parseFloat(userGoal));
+            }
+        }
+
+
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         return jsonResult;
     }
