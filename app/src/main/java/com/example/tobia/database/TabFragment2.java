@@ -279,7 +279,7 @@ public class TabFragment2 extends Fragment {
         Typeface opensans_regular = Typeface.createFromAsset(getActivity().getResources().getAssets(), "opensans_regular.ttf");
         Typeface opensans_semibold = Typeface.createFromAsset(getActivity().getResources().getAssets(), "opensans_semibold.ttf");
 
-        //Set headlines for scroll and bar views
+        //Set headlines for scroll and bar view
         text = (TextView) view.findViewById(R.id.calenderViewFrag2);
         text.setTextColor(getActivity().getResources().getColor(R.color.text_color));
         text.setTypeface(opensans_extrabold);
