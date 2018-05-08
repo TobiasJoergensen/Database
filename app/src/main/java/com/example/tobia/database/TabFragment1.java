@@ -284,7 +284,7 @@ public class TabFragment1 extends Fragment {
                 double caster = flowList.get(curArrayPlacement);
                 int dummy = (int) caster / 1000;
                 text = (TextView) view.findViewById(R.id.flowUsed);
-                text.setText(String.valueOf(dummy) + "L");
+                text.setText(String.valueOf(dummy));
                 Log.d("ER VI HER: ", "JA");
             }
             else {
@@ -554,7 +554,7 @@ public class TabFragment1 extends Fragment {
             if ((flowList.get(curArrayPlacement) / 1000) % 1 == 0){
                 double caster = flowList.get(curArrayPlacement);
                 int dummy = (int) caster / 1000;
-                flow.setText(String.valueOf(dummy) + "L");
+                flow.setText(String.valueOf(dummy));
             }
             else {
                 double dummy = flowList.get(curArrayPlacement) / 1000;
