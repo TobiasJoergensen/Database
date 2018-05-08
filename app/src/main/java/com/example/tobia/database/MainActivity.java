@@ -307,8 +307,8 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 float dummy = sparet / 1000;
-                String dummy2 = new DecimalFormat("#.##").format(dummy);
-                liter.setText(dummy2);
+                String dummy2 = new DecimalFormat("#.#").format(dummy);
+                liter.setText(dummy2 + "L");
             }
 
             if (waterUsage % 1 == 0 && waterGoal % 1 == 0){
@@ -319,8 +319,8 @@ public class MainActivity extends AppCompatActivity {
             else {
                 double dummyFloat1 = waterUsage / 1000;
                 double dummyFloat2 = waterGoal / 1000;
-                String dummy1 = new DecimalFormat("#.##").format(dummyFloat1);
-                String dummy2 = new DecimalFormat("#.##").format(dummyFloat2);
+                String dummy1 = new DecimalFormat("#.#").format(dummyFloat1);
+                String dummy2 = new DecimalFormat("#.#").format(dummyFloat2);
                 percent.setText(dummy1 + dummy2);
             }
 
@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 double dummy = forMeget / 1000;
-                String dummy2 = new DecimalFormat("#.##").format(dummy);
+                String dummy2 = new DecimalFormat("#.#").format(dummy);
                 liter.setText(dummy2 + "L");
             }
 
@@ -398,8 +398,8 @@ public class MainActivity extends AppCompatActivity {
             else {
                 double dummy = waterUsage / 1000;
                 double dummy2 = waterUsage / 1000;
-                String dummy3 = new DecimalFormat("#.##").format(dummy);
-                String dummy4 = new DecimalFormat("#.##").format(dummy2);
+                String dummy3 = new DecimalFormat("#.#").format(dummy);
+                String dummy4 = new DecimalFormat("#.#").format(dummy2);
                 percent.setText(dummy3 + " / " + dummy4);
             }
 
@@ -550,7 +550,7 @@ public class MainActivity extends AppCompatActivity {
         waterGoal = waterGoal * 1000;
     }
 
-    public void leftClick(View view) {
+    public void rightClick(View view) {
         Log.d("størrelse: ", Integer.toString(idList.size()));
         Log.d("størrelse: ", Integer.toString(curArrayPlacement));
         if(curArrayPlacement > 0) {
@@ -581,7 +581,7 @@ public class MainActivity extends AppCompatActivity {
             if ((flowList.get(curArrayPlacement) / 1000) % 1 == 0){
                 double caster = flowList.get(curArrayPlacement);
                 int dummy = (int) caster / 1000;
-                flow.setText(String.valueOf(dummy) + "L");
+                flow.setText(String.valueOf(dummy));
                 Log.d("ER VI HER: ", "JA");
             }
             else {
@@ -624,7 +624,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void rightClick(View view) {
+    public void leftClick(View view) {
         Log.d("størrelse: ", Integer.toString(idList.size()));
         Log.d("størrelse: ", Integer.toString(waterUsageList.size()));
 
@@ -657,7 +657,7 @@ public class MainActivity extends AppCompatActivity {
             if ((flowList.get(curArrayPlacement) / 1000) % 1 == 0){
                 double caster = flowList.get(curArrayPlacement);
                 int dummy = (int) caster / 1000;
-                flow.setText(String.valueOf(dummy) + "L");
+                flow.setText(String.valueOf(dummy));
             }
             else {
                 double dummy = flowList.get(curArrayPlacement) / 1000;

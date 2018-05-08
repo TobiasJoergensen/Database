@@ -126,7 +126,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/pieChart"
                 app:layout_constraintStart_toStartOf="@+id/pieChart"
                 app:layout_constraintTop_toTopOf="@+id/pieChart"
-                app:layout_constraintVertical_bias="0.85" />
+                app:layout_constraintVertical_bias="0.8" />
 
             <TextView
                 android:id="@+id/calenderView"
@@ -284,12 +284,14 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="1dp"
                 android:layout_marginTop="16dp"
                 android:paddingEnd="5dp"
                 android:paddingStart="0dp"
-                android:src="@drawable/ic_shape"
+                android:src="@drawable/ic_water"
+                android:tint="@color/grey_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.05"

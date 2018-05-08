@@ -51,11 +51,11 @@
                 android:layout_height="20dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="Periode"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.502"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,6 +79,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/calenderViewFrag2">
 
             </com.github.mikephil.charting.charts.BarChart>
+
+            <TextView
+                android:id="@+id/periode"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:text="Seneste syv bade"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/chart"
+                app:layout_constraintTop_toBottomOf="@+id/calenderViewFrag2" />
 
 
         </android.support.constraint.ConstraintLayout>
@@ -230,12 +241,14 @@
 
                     <ImageView
                         android:id="@+id/imageView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="25dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="1dp"
                         android:layout_marginTop="8dp"
                         android:paddingEnd="5dp"
                         android:paddingStart="0dp"
-                        android:src="@drawable/ic_shape"
+                        android:src="@drawable/ic_water"
+                        android:tint="@color/grey_text"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.05"
@@ -317,7 +330,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="32dp"
                         android:text="Total forbrug"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -394,13 +407,15 @@
 
                     <ImageView
                         android:id="@+id/imageViewGennemsnit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="25dp"
+                        android:layout_height="22dp"
                         android:layout_marginBottom="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginTop="16dp"
                         android:paddingEnd="5dp"
                         android:paddingStart="0dp"
-                        android:src="@drawable/ic_shape"
+                        android:src="@drawable/ic_water"
+                        android:tint="@color/grey_text"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.05"

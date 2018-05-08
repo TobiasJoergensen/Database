@@ -244,7 +244,7 @@ public class TabFragment2 extends Fragment {
         goal_line.enableDashedLine(5,10,5);
         goal_line.setLabel("Mål");
         //goal_line.setLabelPosition(LEFT_TOP);
-        goal_line.setLineColor(Color.rgb(192,192,192));
+        goal_line.setLineColor(Color.rgb(0,0,0));
         goal_line.setTextColor(Color.rgb(192,192,192));
         yAxis.addLimitLine(goal_line);
 
@@ -291,7 +291,11 @@ public class TabFragment2 extends Fragment {
         text = (TextView) view.findViewById(R.id.gennemsnitForbrug);
         text.setTextColor(getActivity().getResources().getColor(R.color.text_color));
         text.setTypeface(opensans_extrabold);
-        text.setText("Gennemsnitligt forbrug");
+        text.setText("Gennemsnitligt forbrug per bad");
+
+        text = (TextView) view.findViewById(R.id.periode);
+        text.setTextColor(getActivity().getResources().getColor(R.color.text_color));
+        text.setTypeface(opensans_regular);
 
         //Set scrollview text attributes
         text = (TextView) view.findViewById(R.id.flowUsed);

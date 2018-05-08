@@ -247,7 +247,7 @@ public class TabFragment1 extends Fragment {
             else {
                 text = (TextView) view.findViewById(R.id.literSaved);
                 float dummy = sparet / 1000;
-                String dummy2 = new DecimalFormat("#.##").format(dummy);
+                String dummy2 = new DecimalFormat("#.#").format(dummy);
                 text.setText(dummy2 + "L");
             }
 
@@ -261,8 +261,8 @@ public class TabFragment1 extends Fragment {
                 text = (TextView) view.findViewById(R.id.savedPercent);
                 double dummy = waterUsage / 1000;
                 double dummy2 = waterGoal / 1000;
-                String dummy3 = new DecimalFormat("#.##").format(dummy);
-                String dummy4 = new DecimalFormat("#.##").format(dummy2);
+                String dummy3 = new DecimalFormat("#.#").format(dummy);
+                String dummy4 = new DecimalFormat("#.#").format(dummy2);
                 text.setText(dummy3 + " / " + dummy4);
             }
 
@@ -354,7 +354,7 @@ public class TabFragment1 extends Fragment {
             else {
                 text = (TextView) view.findViewById(R.id.literSaved);
                 float dummy = forMeget / 1000;
-                String dummy2 = new DecimalFormat("#.##").format(dummy);
+                String dummy2 = new DecimalFormat("#.#").format(dummy);
                 text.setText(dummy2 + "L");
 
                 text.setText(Float.toString(forMeget/ 1000) + "L");
@@ -369,8 +369,8 @@ public class TabFragment1 extends Fragment {
             else {
                 double dummy = waterUsage / 1000;
                 double dummy2 = waterGoal / 1000;
-                String dummy3 = new DecimalFormat("#.##").format(dummy);
-                String dummy4 = new DecimalFormat("#.##").format(dummy2);
+                String dummy3 = new DecimalFormat("#.#").format(dummy);
+                String dummy4 = new DecimalFormat("#.#").format(dummy2);
                 text.setText(dummy3 + " / " + dummy4);
                 text = (TextView) view.findViewById(R.id.savedPercent);
                 text.setText(dummy3 + " / " + dummy4);
@@ -394,7 +394,7 @@ public class TabFragment1 extends Fragment {
                 double caster = flowList.get(curArrayPlacement);
                 int dummy = (int) caster / 1000;
                 text = (TextView) view.findViewById(R.id.flowUsed);
-                text.setText(String.valueOf(dummy) + "L");
+                text.setText(String.valueOf(dummy));
                 Log.d("ER VI HER: ", "JA");
             }
             else {
@@ -503,7 +503,7 @@ public class TabFragment1 extends Fragment {
             if ((flowList.get(curArrayPlacement) / 1000) % 1 == 0){
                 double caster = flowList.get(curArrayPlacement);
                 int dummy = (int) caster / 1000;
-                flow.setText(String.valueOf(dummy) + "L");
+                flow.setText(String.valueOf(dummy));
                 Log.d("ER VI HER: ", "JA");
             }
             else {
