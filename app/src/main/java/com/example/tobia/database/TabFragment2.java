@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +46,6 @@ public class TabFragment2 extends Fragment {
     NestedScrollView mScrollView;
     private BarChart mChart;
     float userGoal = 10;
-    private String[]days_lables = {"M","T","O","T","F","L","S",};
     List<String> days = new ArrayList<String>();
 
     private static List<Double> listen = new ArrayList<>();
@@ -78,11 +79,6 @@ public class TabFragment2 extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         listTransfer();
-
-        mChart = (BarChart) getActivity().findViewById(R.id.chart);
-
-        mChart.setMaxVisibleValueCount(40);
-
         mainActivitySetup();
         overUnderGoalDataSet();
         calcTotal();
@@ -107,10 +103,24 @@ public class TabFragment2 extends Fragment {
         text = (TextView) view.findViewById(R.id.flowUsed2);
         text.setText(dummy2);
 
-        dummy = tidGennemsnit;
-        dummy2 = new DecimalFormat("#.##").format(dummy);
-        text = (TextView) view.findViewById(R.id.timeUsed2);
-        text.setText(dummy2);
+        int dummytime = (int) tidGennemsnit;
+        if(dummytime > 60) {
+            int dummytime2 = dummytime / 60;
+            dummytime = dummytime % (dummytime2 * 60);
+            String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
+            SpannableString ss = new SpannableString(spannable);
+            if(dummytime2 > 9) {
+                ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 2, 6, 0);// set color
+            }
+            else {
+                ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 1, 5, 0);// set color
+            }
+            text = (TextView) view.findViewById(R.id.timeUsed2);
+            text.setText(ss);
+        }
+        else {
+            text = (TextView) view.findViewById(R.id.timeUsed2); text.setText(String.valueOf(dummytime));
+        }
 
         dummy = pengeGennemsnit;
         dummy2 = new DecimalFormat("#.##").format(dummy);
@@ -134,10 +144,24 @@ public class TabFragment2 extends Fragment {
         text = (TextView) view.findViewById(R.id.flowUsed);
         text.setText(dummy2);
 
-        dummy = tidTotal;
-        dummy2 = new DecimalFormat("#.##").format(dummy);
-        text = (TextView) view.findViewById(R.id.timeUsed);
-        text.setText(dummy2);
+        int dummytime = (int) tidTotal;
+        if(dummytime > 60) {
+            int dummytime2 = dummytime / 60;
+            dummytime = dummytime % (dummytime2 * 60);
+            String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
+            SpannableString ss = new SpannableString(spannable);
+            if(dummytime2 > 9) {
+                ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 2, 6, 0);// set color
+            }
+            else {
+                ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 1, 5, 0);// set color
+            }
+            text = (TextView) view.findViewById(R.id.timeUsed);
+            text.setText(ss);
+        }
+        else {
+            text = (TextView) view.findViewById(R.id.timeUsed); text.setText(String.valueOf(dummytime));
+        }
 
         dummy = pengeTotal;
         dummy2 = new DecimalFormat("#.##").format(dummy);
@@ -146,11 +170,13 @@ public class TabFragment2 extends Fragment {
     }
 
     private void overUnderGoalDataSet(){
+
+        mChart = (BarChart) getActivity().findViewById(R.id.chart);
+        mChart.setTouchEnabled(false);
         ArrayList<BarEntry> yValues = new ArrayList<>();
 
         for(int i=0; i < barLength; i++){
-
-            if(waterUsageList.get(i) <= userGoal){
+            if(waterUsageList.get(i) / 1000 <= userGoal){
                 double dummy = waterUsageList.get(i) / 1000;
                 float val1 = (float) dummy;
                 float val2 = 0;
@@ -308,6 +334,7 @@ public class TabFragment2 extends Fragment {
         flowList = doInBackground.getFlowList();
         dateList = doInBackground.getDateList();
         timeUsedList = doInBackground.getTimeUsed();
+        userGoal = doInBackground.getUserGoalList().get(0);
     }
 
 }

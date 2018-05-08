@@ -332,8 +332,12 @@ public class MainActivity extends AppCompatActivity {
                 dummytime = dummytime % (dummytime2 * 60);
                 String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
                 SpannableString ss = new SpannableString(spannable);
-                ss.setSpan(new RelativeSizeSpan(1f), spannable.length() - 3, spannable.length(), 0);
-                ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 0, 5, 0);// set color
+                if(dummytime2 > 9) {
+                    ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 2, 5, 0);// set color
+                }
+                else {
+                    ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 1, 6, 0);// set color
+                }
                 time.setText(ss);
             }
             else {time.setText(String.valueOf(dummytime));}
@@ -407,8 +411,12 @@ public class MainActivity extends AppCompatActivity {
                 dummytime = dummytime % (dummytime2 * 60);
                 String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
                 SpannableString ss = new SpannableString(spannable);
-                ss.setSpan(new RelativeSizeSpan(1f), spannable.length() - 3, spannable.length(), 0);
-                ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 0, 5, 0);// set color
+                if(dummytime2 > 9) {
+                    ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 2, 5, 0);// set color
+                }
+                else {
+                    ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 1, 6, 0);// set color
+                }
                 time.setText(ss);
             }
             else {time.setText(String.valueOf(dummytime));}
@@ -590,8 +598,12 @@ public class MainActivity extends AppCompatActivity {
                 dummytime = dummytime % (dummytime2 * 60);
                 String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
                 SpannableString ss = new SpannableString(spannable);
-                ss.setSpan(new RelativeSizeSpan(1f), spannable.length() - 3, spannable.length(), 0);
-                ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 1, 5, 0);// set color
+                if(dummytime2 > 9) {
+                    ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 2, 5, 0);// set color
+                }
+                else {
+                    ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 1, 6, 0);// set color
+                }
                 time.setText(ss);
             }
             else {time.setText(String.valueOf(dummytime));}
@@ -662,8 +674,12 @@ public class MainActivity extends AppCompatActivity {
                 dummytime = dummytime % (dummytime2 * 60);
                 String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
                 SpannableString ss = new SpannableString(spannable);
-                ss.setSpan(new RelativeSizeSpan(1f), spannable.length() - 3, spannable.length(), 0);
-                ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 1, 5, 0);// set color
+                if(dummytime2 > 9) {
+                    ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 2, 5, 0);// set color
+                }
+                else {
+                    ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 1, 6, 0);// set color
+                }
                 time.setText(ss);
             }
             else {time.setText(String.valueOf(dummytime));}
