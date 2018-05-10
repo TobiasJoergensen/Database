@@ -333,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
                 String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
                 SpannableString ss = new SpannableString(spannable);
                 if(dummytime2 > 9) {
-                    ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 2, 5, 0);// set color
+                    ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 2, 6, 0);// set color
                 }
                 else {
                     ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 1, 6, 0);// set color
@@ -412,7 +412,7 @@ public class MainActivity extends AppCompatActivity {
                 String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
                 SpannableString ss = new SpannableString(spannable);
                 if(dummytime2 > 9) {
-                    ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 2, 5, 0);// set color
+                    ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 2, 6, 0);// set color
                 }
                 else {
                     ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 1, 6, 0);// set color

@@ -18,12 +18,14 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.text.DecimalFormat;
@@ -89,15 +91,21 @@ public class TabFragment2 extends Fragment {
         double dummy = 0;
         String dummy2;
 
-        for(int i = 0; i < barLength; i++) {
+        for(int i = 0; i <= barLength; i++) {
             forbrugGennemsnit = forbrugGennemsnit + (waterUsageList.get(i) / 1000);
             tidGennemsnit = tidGennemsnit + (timeUsedList.get(i) / 1000);
-            pengeGennemsnit = pengeGennemsnit + (((waterUsageList.get(i) / 1000) * 44 * 4) / 1000);
+            pengeGennemsnit = pengeGennemsnit + (((waterUsageList.get(i) / 1000) * 44) / 1000);
         }
-        forbrugGennemsnit = forbrugGennemsnit / barLength;
-        tidGennemsnit = tidGennemsnit / barLength;
-        pengeGennemsnit = pengeGennemsnit / barLength;
-
+        if(barLength <= 0) {
+            forbrugGennemsnit = forbrugGennemsnit / 1;
+            tidGennemsnit = tidGennemsnit / 1;
+            pengeGennemsnit = pengeGennemsnit / 1;
+        }
+        else {
+            forbrugGennemsnit = forbrugGennemsnit / (barLength + 1);
+            tidGennemsnit = tidGennemsnit / (barLength + 1);
+            pengeGennemsnit = pengeGennemsnit / (barLength + 1);
+        }
         dummy = forbrugGennemsnit;
         dummy2 = new DecimalFormat("#.##").format(dummy);
         text = (TextView) view.findViewById(R.id.flowUsed2);
@@ -133,10 +141,10 @@ public class TabFragment2 extends Fragment {
         double dummy = 0;
         String dummy2;
 
-        for(int i = 0; i < barLength; i++) {
+        for(int i = 0; i <= barLength; i++) {
             forbrugTotal = forbrugTotal + (waterUsageList.get(i) / 1000);
             tidTotal = tidTotal + (timeUsedList.get(i) / 1000);
-            pengeTotal = pengeTotal + (((waterUsageList.get(i) / 1000) * 44 * 4) / 1000);
+            pengeTotal = pengeTotal + (((waterUsageList.get(i) / 1000) * 44) / 1000);
         }
 
         dummy = forbrugTotal;
@@ -174,8 +182,9 @@ public class TabFragment2 extends Fragment {
         mChart = (BarChart) getActivity().findViewById(R.id.chart);
         mChart.setTouchEnabled(false);
         ArrayList<BarEntry> yValues = new ArrayList<>();
+        days.clear();
 
-        for(int i=0; i < barLength; i++){
+        for(int i=0; i <= barLength; i++){
             if(waterUsageList.get(i) / 1000 <= userGoal){
                 double dummy = waterUsageList.get(i) / 1000;
                 float val1 = (float) dummy;
@@ -216,7 +225,7 @@ public class TabFragment2 extends Fragment {
         mChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         XAxis xAxis = mChart.getXAxis();
 
-        for(int i=0; i < barLength; i++) {
+        for(int i=0; i <= barLength; i++) {
             Date dateFirst = null;
 
             String date = dateList.get(i);
@@ -235,6 +244,13 @@ public class TabFragment2 extends Fragment {
         }
 
         xAxis.setValueFormatter(new IndexAxisValueFormatter(days));
+        if(barLength <= 0) {
+            xAxis.setLabelCount(barLength);
+        }
+        else {
+            xAxis.setLabelCount(barLength + 1);
+        }
+
 
         YAxis yAxis = mChart.getAxisLeft();
         yAxis.setAxisMinValue(0f);
@@ -326,7 +342,7 @@ public class TabFragment2 extends Fragment {
             barLength = 7;
         }
         else {
-
+            barLength = idList.size() - 1;
         }
     }
 

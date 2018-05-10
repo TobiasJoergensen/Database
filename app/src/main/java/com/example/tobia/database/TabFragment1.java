@@ -303,7 +303,7 @@ public class TabFragment1 extends Fragment {
                 String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
                 SpannableString ss = new SpannableString(spannable);
                 if(dummytime2 > 9) {
-                    ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 2, 5, 0);// set color
+                    ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 2, 6, 0);// set color
                 }
                 else {
                     ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 1, 6, 0);// set color
@@ -413,7 +413,7 @@ public class TabFragment1 extends Fragment {
                 String spannable = String.valueOf(dummytime2) + " min " + String.valueOf(dummytime);
                 SpannableString ss = new SpannableString(spannable);
                 if(dummytime2 > 9) {
-                    ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 2, 5, 0);// set color
+                    ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 2, 6, 0);// set color
                 }
                 else {
                     ss.setSpan(new ForegroundColorSpan(this.getResources().getColor(R.color.grey_text)), 1, 6, 0);// set color
@@ -453,7 +453,7 @@ public class TabFragment1 extends Fragment {
             return stringer;
         }
         else {
-            count = ((waterUsageList.get(curArrayPlacement) / 1000) * 44 * 4 / 1000);
+            count = ((waterUsageList.get(curArrayPlacement) / 1000) * 44 / 1000);
         }
         String stringer = new DecimalFormat("#.##").format(count).toString();
         return stringer;
