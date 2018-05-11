@@ -473,6 +473,7 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 public void run() {
                     mainActivitySetup();
+
 /*                    pieDrawerGrey();
                     pieDrawer();
                     TextView date = (TextView) findViewById(R.id.calenderView);
@@ -523,6 +524,7 @@ public class MainActivity extends AppCompatActivity {
         }
     });
 
+
     public String priceCount () {
         double count;
 
@@ -533,7 +535,7 @@ public class MainActivity extends AppCompatActivity {
             return stringer;
         }
         else {
-            count = ((waterUsageList.get(curArrayPlacement) / 1000) * 44 * 4 / 1000);
+            count = ((waterUsageList.get(curArrayPlacement) / 1000) * 44 / 1000);
         }
         String stringer = new DecimalFormat("#.##").format(count).toString();
         return stringer;
