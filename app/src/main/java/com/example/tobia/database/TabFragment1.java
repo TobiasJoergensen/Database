@@ -233,8 +233,11 @@ public class TabFragment1 extends Fragment {
 
         if (waterUsage <= waterGoal) {
             float sparet = waterGoal - (float)waterUsage;
-            Vand.add(new PieEntry((float)waterUsage,  ""));
-            Vand.add((new PieEntry(sparet, "")));
+
+            float procent1 = ((float) waterUsage / waterGoal) * 100;
+            float procent2 = 100 - procent1;
+            Vand.add(new PieEntry(procent2,  ""));
+            Vand.add((new PieEntry(procent1, "")));
 
             text = (TextView) view.findViewById(R.id.sparetSting);
             text.setText("Sparet");

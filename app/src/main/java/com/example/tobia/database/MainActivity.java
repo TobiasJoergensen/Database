@@ -291,9 +291,12 @@ public class MainActivity extends AppCompatActivity {
         TextView time = (TextView) findViewById(R.id.timeUsed);
 
         if (waterUsage <= waterGoal) {
+
             float sparet = waterGoal - (float)waterUsage;
-            Vand.add(new PieEntry((float)waterUsage,  ""));
-            Vand.add((new PieEntry(sparet, "")));
+            float test = ((float) waterUsage / waterGoal) * 100;
+            float procent2 = 100 - test;
+            Vand.add(new PieEntry(procent2,  ""));
+            Vand.add((new PieEntry(test, "")));
 
             TextView liter = (TextView) findViewById(R.id.literSaved);
             TextView percent = (TextView) findViewById(R.id.savedPercent);
