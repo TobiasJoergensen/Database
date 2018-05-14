@@ -339,7 +339,7 @@ public class TabFragment1 extends Fragment {
             float forMeget = waterGoal - (float)waterUsage;
             int overForbrug = (int)Math.abs(forMeget);
             forMeget = Math.abs(forMeget);
-            //          forMeget = (float)waterUsage - forMeget;
+            float forMeget2 = (float)waterUsage - forMeget;
             if(waterUsage > waterGoal * 2) {
                 Vand.add(new PieEntry((float)waterUsage,  ""));
             }
@@ -359,8 +359,6 @@ public class TabFragment1 extends Fragment {
                 float dummy = forMeget / 1000;
                 String dummy2 = new DecimalFormat("#.#").format(dummy);
                 text.setText(dummy2 + "L");
-
-                text.setText(Float.toString(forMeget/ 1000) + "L");
             }
 
             if (waterUsage % 1 == 0 && waterGoal % 1 == 0){
@@ -374,7 +372,6 @@ public class TabFragment1 extends Fragment {
                 double dummy2 = waterGoal / 1000;
                 String dummy3 = new DecimalFormat("#.#").format(dummy);
                 String dummy4 = new DecimalFormat("#.#").format(dummy2);
-                text.setText(dummy3 + " / " + dummy4);
                 text = (TextView) view.findViewById(R.id.savedPercent);
                 text.setText(dummy3 + " / " + dummy4);
             }

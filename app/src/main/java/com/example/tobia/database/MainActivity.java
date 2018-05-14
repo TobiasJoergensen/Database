@@ -369,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
             float forMeget = waterGoal - (float)waterUsage;
             int overForbrug = (int)Math.abs(forMeget);
             forMeget = Math.abs(forMeget);
-//            forMeget = (float)waterUsage - forMeget;
+            float forMeget2 = (float)waterUsage - forMeget;
             if(waterUsage > waterGoal * 2) {
                 Vand.add(new PieEntry((float)waterUsage,  ""));
             }
@@ -384,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
 
             saved.setText("Overbrugt");
 
-            if (forMeget % 1 == 0){
+            if (forMeget2 % 1 == 0){
                 liter.setText(Integer.toString((overForbrug / 1000) ) + "L");
             }
             else {
