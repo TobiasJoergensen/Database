@@ -10,6 +10,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -183,10 +184,10 @@ public class TabFragment2 extends Fragment {
         mChart.setTouchEnabled(false);
         ArrayList<BarEntry> yValues = new ArrayList<>();
         days.clear();
-
+        Log.d("xddd", Float.toString(barLength));
         for(int i=0; i <= barLength; i++){
             if(waterUsageList.get(barLength - i) / 1000 <= userGoal){
-                double dummy = waterUsageList.get(i) / 1000;
+                double dummy = waterUsageList.get(barLength - i) / 1000;
                 float val1 = (float) dummy;
                 float val2 = 0;
                 yValues.add(new BarEntry(i, new float[]{val1, val2}));
@@ -269,7 +270,7 @@ public class TabFragment2 extends Fragment {
             Date dateLast = null;
 
             String dateNewest = dateList.get(0);
-            String dateOldest = dateList.get(6);
+            String dateOldest = dateList.get(barLength);
 
             String format = "yyyy-MM-dd HH:mm:ss";
 
