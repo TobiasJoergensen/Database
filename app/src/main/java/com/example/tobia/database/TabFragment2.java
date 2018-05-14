@@ -185,7 +185,7 @@ public class TabFragment2 extends Fragment {
         days.clear();
 
         for(int i=0; i <= barLength; i++){
-            if(waterUsageList.get(i) / 1000 <= userGoal){
+            if(waterUsageList.get(barLength - i) / 1000 <= userGoal){
                 double dummy = waterUsageList.get(i) / 1000;
                 float val1 = (float) dummy;
                 float val2 = 0;
@@ -193,7 +193,7 @@ public class TabFragment2 extends Fragment {
             }
             else{
                 float val1 = userGoal;
-                double dummy = waterUsageList.get(i) / 1000;
+                double dummy = waterUsageList.get(barLength - i) / 1000;
                 float val2 = (float)(dummy - userGoal);
                 yValues.add(new BarEntry(i, new float[]{val1, val2}));
             }
@@ -228,7 +228,7 @@ public class TabFragment2 extends Fragment {
         for(int i=0; i <= barLength; i++) {
             Date dateFirst = null;
 
-            String date = dateList.get(i);
+            String date = dateList.get(barLength - i);
 
             String format = "yyyy-MM-dd HH:mm:ss";
 
