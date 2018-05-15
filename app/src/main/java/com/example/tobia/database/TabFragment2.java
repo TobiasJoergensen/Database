@@ -246,10 +246,10 @@ public class TabFragment2 extends Fragment {
 
         xAxis.setValueFormatter(new IndexAxisValueFormatter(days));
         if(barLength <= 0) {
-            xAxis.setLabelCount(barLength);
+            xAxis.setLabelCount(barLength + 1);
         }
         else {
-            xAxis.setLabelCount(barLength + 1);
+            xAxis.setLabelCount(barLength);
         }
 
 
@@ -340,7 +340,7 @@ public class TabFragment2 extends Fragment {
         text.setTypeface(opensans_semibold);
 
         if(idList.size() > 6) {
-            barLength = 7;
+            barLength = 6;
         }
         else {
             barLength = idList.size() - 1;
