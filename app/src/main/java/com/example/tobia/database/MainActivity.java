@@ -531,7 +531,7 @@ public class MainActivity extends AppCompatActivity {
     public String priceCount () {
         double count;
 
-        if (waterUsageList.get(curArrayPlacement)% 1 == 0) {
+        if (((waterUsageList.get(curArrayPlacement) / 1000) * 44 / 1000) % 1 == 0) {
             double caster = flowList.get(curArrayPlacement);
             int dummy = (int) caster;
             String stringer = String.valueOf(dummy);
